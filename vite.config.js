@@ -1,17 +1,20 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
+import path from 'node:path';
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.jsx',
+            input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
         }),
         react(),
     ],
-    // Add this to help Vite 8 resolve the Laravel server
-    server: {
-        host: 'localhost',
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/js'),
+            'ziggy-js': path.resolve(__dirname, 'vendor/tightenco/ziggy'),
+        },
     },
 });
