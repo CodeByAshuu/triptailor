@@ -6,7 +6,22 @@
     <div class="px-6 mb-24">
         <div class="py-6">
             <h2 class="text-sm font-semibold font-heading uppercase pt-18 mb-4 text-text tracking-[0.1rem]"> Customizable Travel Itinarary Planner</h2>
-            <h1 class="text-7xl mb-4 text-white leading-23">We take travel, planning, and <br> itineraries to the next level.</h1>
+            <h1 class="text-7xl mb-4 text-white leading-23" 
+                x-data="{ 
+                    text: 'We take travel, planning, and itineraries to the next level.',
+                    displayText: '',
+                    index: 0,
+                    type() {
+                        if (this.index < this.text.length) {
+                            this.displayText += this.text.charAt(this.index);
+                            this.index++;
+                            setTimeout(() => this.type(), 200);
+                        }
+                    }
+                }" 
+                x-init="type()">
+                <span x-text="displayText"></span><span class="animate-pulse border-r-4 border-orange-500 ml-1" x-show="index < text.length"></span>
+            </h1>
         </div>
         <div class="flex gap-2">
             <a href="/trips/create" class="bg-orange hover:bg-white text-sm text-white hover:text-black px-8 py-6 rounded-lg uppercase font-semibold font-heading tracking-widest">
