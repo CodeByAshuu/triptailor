@@ -25,3 +25,37 @@
     --color-text: #FFFEFDB3;
     --color-text-muted: #FFFEFD99;
 }
+/* DARK SECTION */
+
+.landing-navbar.dark-mode #navLogo,
+.landing-navbar.dark-mode #navLinks a {
+    color: white;
+}
+
+.login-btn.dark-mode {
+    background-color: white;
+    color: black;
+}
+
+.login-btn.dark-mode:hover {
+    background-color: var(--color-orange);
+    color: white;
+}
+
+
+/* LIGHT SECTION */
+
+.landing-navbar.light-mode #navLogo,
+.landing-navbar.light-mode #navLinks a {
+    color: black;
+}
+
+.login-btn.light-mode {
+    background-color: black;
+    color: white;
+}
+
+.login-btn.light-mode:hover {
+    background-color: var(--color-orange);
+    color: white;
+}
