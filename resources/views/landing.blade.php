@@ -2,8 +2,8 @@
 
 @section('content')
 <x-landing-navbar />
-<section class="px-6" data-theme="dark">
-    <div class="mb-24">
+<section class="" data-theme="dark">
+    <div class="px-6 mb-24">
         <div class="py-6">
             <h2 class="text-sm font-semibold font-heading uppercase pt-18 mb-4 text-text tracking-[0.1rem]"> Customizable Travel Itinarary Planner</h2>
             <h1 class="text-7xl mb-4 text-white leading-23">We take travel, planning, and <br> itineraries to the next level.</h1>

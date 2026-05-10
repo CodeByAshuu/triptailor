@@ -1,44 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>TripTailor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config('app.name', 'TripTailor') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-bg  font-sans">
-
-    <!-- Navbar -->
-    <nav class="bg-bg shadow px-6 py-4 flex items-center justify-between">
-        <h1 class="text-2xl text-white font-semibold font-heading">
-            triptailor
-        </h1>
-
-        <div class="uppercase font-medium text-sm text-white font-heading flex gap-8 tracking-widest">
-            <a href="/dashboard">Dashboard</a>
-            <a href="/trips">Trips</a>
-            <a href="/explore">Explore</a>
-        </div>
-
-        @auth
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="bg-white hover:bg-orange text-sm text-black hover:text-white px-8 py-4 rounded-lg uppercase font-semibold font-heading tracking-widest">
-                    Logout &rarr;
-                </button>
-            </form>
-        @else
-            <a href="{{ route('login') }}" class="bg-white hover:bg-orange text-sm text-black hover:text-white px-8 py-4 rounded-lg uppercase font-semibold font-heading tracking-widest">
-                Login &rarr;
-            </a>
-        @endauth
-
-    </nav>
-
-    <!-- Content -->
-    <div class="p-6">
-        @yield('content')
-    </div>
-
 <body class="bg-bg font-sans">
     @yield('content')
 </body>
