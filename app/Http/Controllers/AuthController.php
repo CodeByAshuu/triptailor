@@ -55,10 +55,16 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
+        if (!User::where('email', $credentials['email'])->exists()) {
+            return back()->withErrors([
+                'email' => 'User does not exist.',
+            ], 'login')->withInput($request->only('email'));
+        }
+
         if (!Auth::attempt($credentials, $remember)) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
-            ], 'login')->withInput($request->only('email', 'auth_mode'));
+            ], 'login')->withInput($request->only('email'));
         }
 
         $request->session()->regenerate();
