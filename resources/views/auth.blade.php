@@ -141,7 +141,7 @@
                                                 <circle cx="12" cy="7" r="4"/>
                                             </svg>
                                         </span>
-                                        <input id="reg-first" name="first_name" type="text" placeholder="Jane"
+                                        <input id="reg-first" name="first_name" type="text" placeholder="Your first name"
                                                class="field-input w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                                value="{{ old('first_name') }}" required>
                                     </div>
@@ -151,7 +151,7 @@
                                 <div class="field-group flex flex-col gap-1.5">
                                     <label class="field-label text-xs font-semibold text-gray-700" for="reg-last">Last name</label>
                                     <div class="field-wrap relative flex items-center">
-                                        <input id="reg-last" name="last_name" type="text" placeholder="Doe"
+                                        <input id="reg-last" name="last_name" type="text" placeholder="Your last name"
                                                class="field-input field-input--no-icon w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                                value="{{ old('last_name') }}" required>
                                     </div>
