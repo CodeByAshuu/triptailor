@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
 @import 'tailwindcss';
 
+/* Global resets for better mobile UI */
+@layer base {
+    label, button, a {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
