@@ -18,9 +18,18 @@
             <a href="/explore">Explore</a>
         </div>
 
-        <a href="/login" class="bg-white hover:bg-orange text-sm text-black hover:text-white px-8 py-4 rounded-lg uppercase font-semibold font-heading tracking-widest">
-            Login &rarr;
-        </a>
+        @auth
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="bg-white hover:bg-orange text-sm text-black hover:text-white px-8 py-4 rounded-lg uppercase font-semibold font-heading tracking-widest">
+                    Logout &rarr;
+                </button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="bg-white hover:bg-orange text-sm text-black hover:text-white px-8 py-4 rounded-lg uppercase font-semibold font-heading tracking-widest">
+                Login &rarr;
+            </a>
+        @endauth
 
     </nav>
 
