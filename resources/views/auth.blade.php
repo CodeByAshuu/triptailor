@@ -43,7 +43,6 @@
             <div class="w-full max-w-md sm:max-w-lg lg:max-w-xl overflow-hidden">
                 <div id="auth-slider" class="flex w-[200%] transition-transform duration-700 ease-in-out">
                     
-                    <!-- Login Panel -->
                     <div class="form-panel w-1/2 flex-shrink-0 p-7 max-[480px]:p-5 ">
                         <div class="form-head mb-5">
                             <h2 class="form-title text-2xl font-extrabold tracking-tighter leading-tight text-gray-900">Welcome back</h2>
