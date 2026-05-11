@@ -9,7 +9,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [TripController::class, 'index']);
     Route::resource('trips', TripController::class);
     Route::resource('activities', ActivityController::class);
+});
+
+Route::get('/dashboard', function(){
+    return view('dashboard');
 });
