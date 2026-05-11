@@ -18,6 +18,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('activities', ActivityController::class);
 });
 
+Route::get('/dashboard', function(){
+    return view('dashboard');
+});
 Route::middleware('guest')->group(function () {
     Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
     Route::get('/login', [AuthController::class, 'showAuthForm'])->name('login');
