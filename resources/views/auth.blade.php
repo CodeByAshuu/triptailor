@@ -41,7 +41,7 @@
         <!-- Right Side -->
         <div class="bg-white h-full min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-10 py-10 overflow-hidden">
             <div class="w-full max-w-md sm:max-w-lg lg:max-w-xl overflow-hidden">
-                <div id="auth-slider" class="flex w-[200%] transition-transform duration-700 ease-in-out">
+                <div id="auth-slider" class="flex w-[200%] transition-transform duration-700 ease-in-out" style="{{ $errors->register->any() ? 'transform: translateX(-50%)' : '' }}">
                     
                     <div class="form-panel w-1/2 flex-shrink-0 p-7 max-[480px]:p-5 ">
                         <div class="form-head mb-5">
@@ -65,7 +65,7 @@
                                            class="field-input w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                            value="{{ old('email') }}" autocomplete="email" required>
                                 </div>
-                                @error('email')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                                @error('email', 'login')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                             </div>
 
                             <div class="field-group flex flex-col gap-1.5">
@@ -90,13 +90,18 @@
                                         </svg>
                                     </button>
                                 </div>
-                                @error('password')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                                @error('password', 'login')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                             </div>
 
                             <div class="remember-row mt-[-0.2rem]">
                                 <label class="checkbox-label flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer select-none">
-                                    <input type="checkbox" name="remember" class="checkbox-input hidden" {{ old('remember') ? 'checked' : '' }}>
-                                    <span class="checkbox-box w-[1.1rem] h-[1.1rem] flex-shrink-0 rounded border-2 border-gray-300 bg-white flex items-center justify-center relative transition-colors"></span>
+                                    <div class="relative flex items-center justify-center">
+                                        <input type="checkbox" name="remember" class="checkbox-input sr-only peer" {{ old('remember') ? 'checked' : '' }}>
+                                        <div class="checkbox-box w-[1.1rem] h-[1.1rem] flex-shrink-0 rounded border-2 border-gray-300 bg-white transition-all peer-checked:bg-orange-500 peer-checked:border-orange-500 peer-focus-visible:ring-2 peer-focus-visible:ring-orange-500/20"></div>
+                                        <svg class="absolute w-2.5 h-2.5 text-white scale-0 peer-checked:scale-100 transition-transform pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
                                     Remember me for 30 days
                                 </label>
                             </div>
@@ -135,19 +140,21 @@
                                                 <circle cx="12" cy="7" r="4"/>
                                             </svg>
                                         </span>
-                                        <input id="reg-first" name="first_name" type="text" placeholder="Jane"
+                                        <input id="reg-first" name="first_name" type="text" placeholder="Your first name"
                                                class="field-input w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                                value="{{ old('first_name') }}" required>
                                     </div>
+                                    @error('first_name', 'register')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                                 </div>
 
                                 <div class="field-group flex flex-col gap-1.5">
                                     <label class="field-label text-xs font-semibold text-gray-700" for="reg-last">Last name</label>
                                     <div class="field-wrap relative flex items-center">
-                                        <input id="reg-last" name="last_name" type="text" placeholder="Doe"
+                                        <input id="reg-last" name="last_name" type="text" placeholder="Your last name"
                                                class="field-input field-input--no-icon w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                                value="{{ old('last_name') }}" required>
                                     </div>
+                                    @error('last_name', 'register')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                                 </div>
                             </div>
 
@@ -164,7 +171,7 @@
                                            class="field-input w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm outline-none caret-orange-500 placeholder:text-gray-400 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 transition-all"
                                            value="{{ old('email') }}" required>
                                 </div>
-                                @error('email')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                                @error('email', 'register')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                             </div>
 
                             <div class="field-group flex flex-col gap-1.5">
@@ -193,7 +200,7 @@
                                     <div class="strength-seg h-1 flex-1 rounded-full bg-gray-200 transition-colors" id="s4"></div>
                                 </div>
                                 <p class="strength-label text-xs mt-1 text-gray-400 transition-colors" id="strength-label">Enter a password</p>
-                                @error('password')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                                @error('password', 'register')<p class="field-error text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                             </div>
 
                             <div class="field-group flex flex-col gap-1.5">
@@ -220,11 +227,16 @@
                             </div>
 
                             <label class="checkbox-label terms-row flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer select-none mt-1 leading-relaxed">
-                                <input type="checkbox" name="terms" class="checkbox-input hidden" required>
-                                <span class="checkbox-box w-[1.1rem] h-[1.1rem] flex-shrink-0 rounded border-2 border-gray-300 bg-white flex items-center justify-center relative transition-colors"></span>
-                                I agree to the <a href="#" class="text-orange-500 hover:text-orange-600">Terms of Service</a>
-                                and <a href="#" class="text-orange-500 hover:text-orange-600">Privacy Policy</a>
+                                <div class="relative flex items-center justify-center">
+                                    <input type="checkbox" name="terms" class="checkbox-input sr-only peer" required>
+                                    <div class="checkbox-box w-[1.1rem] h-[1.1rem] flex-shrink-0 rounded border-2 border-gray-300 bg-white transition-all peer-checked:bg-orange-500 peer-checked:border-orange-500 peer-focus-visible:ring-2 peer-focus-visible:ring-orange-500/20"></div>
+                                    <svg class="absolute w-2.5 h-2.5 text-white scale-0 peer-checked:scale-100 transition-transform pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span>I agree to the <a href="#" class="text-orange-500 hover:text-orange-600">Terms of Service</a> and <a href="#" class="text-orange-500 hover:text-orange-600">Privacy Policy</a></span>
                             </label>
+                            @error('terms', 'register')<p class="field-error text-xs text-red-500 mt-[-0.5rem]">{{ $message }}</p>@enderror
 
                             <button type="submit" class="submit-btn w-full flex items-center justify-center gap-2 py-3.5 bg-orange-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-500/40 active:scale-98 transition-all mt-2">
                                 <span>Create Account</span>

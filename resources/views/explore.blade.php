@@ -1,54 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<x-landing-navbar />
 <div class="min-h-screen bg-[#0f0f10] text-white overflow-x-hidden">
     <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-
-        {{-- ═══════════════════════════════════════
-             NAVIGATION BAR
-        ═══════════════════════════════════════ --}}
-        <nav class="flex items-center justify-between border-b border-white/8 pb-4">
-
-            {{-- Nav Links --}}
-            <div class="flex items-center gap-1 sm:gap-6">
-                @foreach ([
-                    ['label' => 'Home',     'active' => true],
-                    ['label' => 'Book',     'active' => false],
-                    ['label' => 'My Trips', 'active' => false],
-                    ['label' => 'Profile',  'active' => false],
-                ] as $nav)
-                    <a href="#"
-                       class="px-3 py-1 text-sm font-medium transition sm:px-0
-                           {{ $nav['active']
-                               ? 'border-b-2 border-orange-500 pb-1 text-white'
-                               : 'text-white/45 hover:text-white' }}">
-                        {{ $nav['label'] }}
-                    </a>
-                @endforeach
-            </div>
-
-            {{-- Right: Notification Bell + Profile --}}
-            <div class="flex items-center gap-3">
-                <button class="relative rounded-full border border-white/10 bg-white/5 p-2.5 transition hover:bg-white/10">
-                    <svg class="h-4 w-4 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0m6 0H9"/>
-                    </svg>
-                    <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-orange-500 ring-2 ring-[#0f0f10]"></span>
-                </button>
-
-                <div class="flex items-center gap-2.5">
-                    <div class="h-9 w-9 shrink-0 overflow-hidden rounded-full border-2 border-orange-500/60">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
-                             alt="Cynthia Wolf" class="h-full w-full object-cover">
-                    </div>
-                    <div class="hidden sm:block">
-                        <p class="text-sm font-semibold leading-tight">Cynthia Wolf</p>
-                        <p class="text-xs text-white/40">@c_wolf89</p>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
         {{-- ═══════════════════════════════════════
              HERO  — Title + Search

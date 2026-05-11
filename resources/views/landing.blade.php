@@ -65,26 +65,92 @@
             </div>
 
             <!-- Numbers -->
-            <div class="text-white">
+            <div class="text-white" x-data="{ 
+                animate(target, duration, precision = 0) {
+                    let start = 0;
+                    let end = parseFloat(target);
+                    let startTime = null;
+                    
+                    const step = (timestamp) => {
+                        if (!startTime) startTime = timestamp;
+                        let progress = Math.min((timestamp - startTime) / duration, 1);
+                        let current = progress * (end - start) + start;
+                        return current.toFixed(precision);
+                    };
+
+                    return step;
+                }
+            }">
                 <p class="text-sm font-semibold uppercase mt-20 mb-6 text-text-muted tracking-[0.1rem]">
                     TripTailor in numbers
                 </p>
 
                 <div class="grid grid-cols-2 border-t border-gray-800">
-                    <div class="border-r border-b border-gray-800 flex flex-col items-center justify-center py-16">
-                        <h1 class="text-5xl mb-4">1K+</h1>
+                    <div class="border-r border-b border-gray-800 flex flex-col items-center justify-center py-16"
+                         x-data="{ count: 0, target: 1000, shown: false }"
+                         x-intersect="if(!shown) { 
+                             shown = true;
+                             let start = null;
+                             const step = (ts) => {
+                                 if(!start) start = ts;
+                                 let progress = Math.min((ts - start) / 2000, 1);
+                                 count = Math.floor(progress * target);
+                                 if(progress < 1) requestAnimationFrame(step);
+                             };
+                             requestAnimationFrame(step);
+                         }">
+                        <h1 class="text-5xl mb-4"><span x-text="count >= 1000 ? Math.floor(count/1000) + 'K' : count">0</span>+</h1>
                         <p class="text-gray-400 text-center">places travelled by our clients</p>
                     </div>
-                    <div class="border-b border-gray-800 flex flex-col items-center justify-center py-16">
-                        <h1 class="text-5xl mb-4">x3</h1>
+
+                    <div class="border-b border-gray-800 flex flex-col items-center justify-center py-16"
+                         x-data="{ count: 0, target: 3, shown: false }"
+                         x-intersect="if(!shown) { 
+                             shown = true;
+                             let start = null;
+                             const step = (ts) => {
+                                 if(!start) start = ts;
+                                 let progress = Math.min((ts - start) / 1500, 1);
+                                 count = Math.floor(progress * target);
+                                 if(progress < 1) requestAnimationFrame(step);
+                             };
+                             requestAnimationFrame(step);
+                         }">
+                        <h1 class="text-5xl mb-4">x<span x-text="count">0</span></h1>
                         <p class="text-gray-400 text-center">avg trips per users — most come <br> back</p>
                     </div>
-                    <div class="border-r border-gray-800 flex flex-col items-center justify-center py-16">
-                        <h1 class="text-5xl mb-4">5.0</h1>
+
+                    <div class="border-r border-gray-800 flex flex-col items-center justify-center py-16"
+                         x-data="{ count: 0, target: 5.0, shown: false }"
+                         x-intersect="if(!shown) { 
+                             shown = true;
+                             let start = null;
+                             const step = (ts) => {
+                                 if(!start) start = ts;
+                                 let progress = Math.min((ts - start) / 1500, 1);
+                                 count = (progress * target).toFixed(1);
+                                 if(progress < 1) requestAnimationFrame(step);
+                             };
+                             requestAnimationFrame(step);
+                         }">
+                        <h1 class="text-5xl mb-4"><span x-text="count">0.0</span></h1>
                         <p class="text-gray-400 text-center">on clutch — 40+ reviews</p>
                     </div>
-                    <div class="flex flex-col items-center justify-center py-16">
-                        <h1 class="text-5xl mb-4">35%</h1>
+
+                    <div class="flex flex-col items-center justify-center py-16"
+                         x-data="{ count: 0, target: 35, shown: false }"
+                         x-intersect="if(!shown) { 
+                             shown = true;
+                             let start = null;
+                             const step = (ts) => {
+                                 if(!start) start = ts;
+                                 let progress = Math.min((ts - start) / 2000, 1);
+                                 count = Math.floor(progress * target);
+                                 if(progress < 1) requestAnimationFrame(step);
+                             };
+                             requestAnimationFrame(step);
+                         }">
+                        <h1 class="text-5xl mb-4"><span x-text="count">0</span>%</h1>
                         <p class="text-gray-400 text-center">conversion lift — klickex case</p>
                     </div>
                 </div>

@@ -27,10 +27,21 @@
 
 </nav>
 
-<a href="/login"
-   id="loginBtn"
-   class="login-btn dark-mode fixed top-6 right-8 z-50 px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
-
-    Login →
-
-</a>
+<div class="fixed top-6 right-8 z-50">
+    @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" 
+                    id="loginBtn"
+                    class="login-btn dark-mode px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
+                Logout &rarr;
+            </button>
+        </form>
+    @else
+        <a href="/login"
+           id="loginBtn"
+           class="login-btn dark-mode px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
+            Login →
+        </a>
+    @endauth
+</div>
