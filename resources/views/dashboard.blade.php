@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="flex h-screen overflow-hidden bg-bg text-white">
 
     <!-- leftr side bar -->
