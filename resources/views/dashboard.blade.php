@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex h-screen overflow-hidden bg-bg text-white">
+<div class="flex h-screen overflow-hidden bg-[#0f0f10] text-white">
 
     <!-- leftr side bar -->
-    <aside class="w-64 shrink-0 border-r border-white/8 flex flex-col overflow-hidden bg-[#0b1114]">
+    <aside class="w-64 shrink-0 border-r border-white/10 flex flex-col overflow-hidden bg-[#0f0f10]">
 
         <!-- brand logo -->
-        <div class="px-5 py-5 border-b border-white/8">
+        <div class="px-5 py-5 border-b border-white/10">
             <span class="text-lg font-bold tracking-tight text-white">TripTailor</span>
         </div>
 
@@ -62,7 +62,7 @@
         </div>
 
         <!-- user profile  -->
-        <div class="px-4 py-4 border-t border-white/8 flex items-center gap-3">
+        <div class="px-4 py-4 border-t border-white/10 flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-xs font-bold text-white shrink-0">
                 {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
             </div>
@@ -77,13 +77,13 @@
     <main class="flex-1 overflow-y-auto">
 
         <!-- Top bar (search add krna hai after db) -->
-        <div class="sticky top-0 z-20 flex items-center justify-between px-8 py-4 border-b border-white/8 backdrop-blur-sm" style="background: rgba(8,13,16,0.85);">
+        <div class="sticky top-0 z-20 flex items-center justify-between px-8 py-4 border-b border-white/10 backdrop-blur-sm" style="background: rgba(15,15,16,0.85);">
             <div>
                 <h1 class="text-lg font-semibold text-white">My Trips</h1>
                 <p class="text-sm text-white/35">{{ now()->format('l, d M Y') }}</p>
             </div>
             <a href="/trips/create"
-               class="flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">
+               class="flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold uppercase px-5 py-2.5 rounded-lg transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
                 Create Trip
             </a>
@@ -99,11 +99,11 @@
                 <div class="grid grid-cols-3 gap-4">
                     @foreach($trips->take(3) as $trip)
                     <a href="/trips/{{ $trip->id }}"
-                       class="bg-[#0f1a1f] group relative rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-300 cursor-pointer">
+                       class="bg-white/5 group relative rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer">
 
                         <!-- cover page placeholder for trip -->
                         <div class="h-36 w-full relative overflow-hidden"
-                             style="background: linear-gradient(135deg, #1a2a30 0%, #0f1a1f 100%);">
+                             style="background: linear-gradient(135deg, #1a1a1e 0%, #0f0f10 100%);">
                             <div class="absolute inset-0 opacity-20"
                                  style="background: radial-gradient(ellipse at 30% 50%, #FF7A00 0%, transparent 60%);">
                             </div>
@@ -135,8 +135,8 @@
 
             <!-- ALL TRIPS TABLE -->
             @if($trips->count() > 3)
-            <div class="border border-white/8 rounded-2xl overflow-hidden bg-[#0f1a1f]">
-                <div class="px-6 py-4 border-b border-white/8 flex items-center justify-between">
+            <div class="border border-white/10 rounded-2xl overflow-hidden bg-white/5">
+                <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
                     <p class="text-sm font-medium text-white/60">All Trips</p>
                     <span class="text-xs text-white/25">{{ $trips->count() }} total</span>
                 </div>
@@ -184,7 +184,7 @@
 
             <!-- EPMTY STATE -->
             <div class="flex flex-col items-center justify-center py-32 text-center">
-                <div class="w-16 h-16 rounded-2xl bg-[#0f1a1f] border border-white/10 flex items-center justify-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
                     <svg class="w-7 h-7 text-white/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                     </svg>
@@ -203,22 +203,22 @@
     </main>
 
     <!-- RIGHT PANEL (quick stats) may change ui -->
-    <aside class="w-72 shrink-0 border-l border-white/8 overflow-y-auto flex flex-col gap-0 bg-[#0b1114]">
+    <aside class="w-72 shrink-0 border-l border-white/10 overflow-y-auto flex flex-col gap-0 bg-[#0f0f10]">
 
-        <div class="p-5 border-b border-white/8">
+        <div class="p-5 border-b border-white/10">
             <p class="text-xs uppercase tracking-widest text-white/25 font-semibold mb-4">Overview</p>
 
             {{-- Stats --}}
             <div class="grid grid-cols-2 gap-3">
-                <div class="rounded-xl p-4 border border-white/8 bg-[#0f1a1f]">
+                <div class="rounded-xl p-4 border border-white/10 bg-white/5">
                     <p class="text-2xl font-bold text-white">{{ isset($trips) ? $trips->count() : 0 }}</p>
                     <p class="text-xs text-white/35 mt-0.5">Total Trips</p>
                 </div>
-                <div class="rounded-xl p-4 border border-white/8 bg-[#0f1a1f]">
+                <div class="rounded-xl p-4 border border-white/10 bg-white/5">
                     <p class="text-2xl font-bold text-orange-400">{{ $totalActivities ?? 0 }}</p>
                     <p class="text-xs text-white/35 mt-0.5">Activities</p>
                 </div>
-                <div class="rounded-xl p-4 border border-white/8 col-span-2 bg-[#0f1a1f]">
+                <div class="rounded-xl p-4 border border-white/10 col-span-2 bg-white/5">
                     <p class="text-2xl font-bold text-white">₹{{ number_format($totalBudget ?? 0) }}</p>
                     <p class="text-xs text-white/35 mt-0.5">Estimated Budget</p>
                 </div>
@@ -227,10 +227,10 @@
 
         {{-- Upcoming trip highlight --}}
         @if(isset($nextTrip) && $nextTrip)
-        <div class="p-5 border-b border-white/8">
+        <div class="p-5 border-b border-white/10">
             <p class="text-xs uppercase tracking-widest text-white/25 font-semibold mb-4">Next Trip</p>
-            <div class="rounded-xl overflow-hidden border border-white/8 bg-[#0f1a1f]">
-                <div class="h-24 relative" style="background: linear-gradient(135deg, #1a2a30 0%, #0f1a1f 100%);">
+            <div class="rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                <div class="h-24 relative" style="background: linear-gradient(135deg, #1a1a1e 0%, #0f0f10 100%);">
                     <div class="absolute inset-0 opacity-30" style="background: radial-gradient(ellipse at 30% 50%, #FF7A00 0%, transparent 70%);"></div>
                     <div class="absolute bottom-3 left-4">
                         <span class="text-xs text-white/50 bg-black/30 px-2 py-0.5 rounded-full backdrop-blur-sm">
@@ -262,7 +262,7 @@
                     ['name' => 'Kerala Escape', 'days' => '4D · 3N', 'tag' => 'Nature'],
                 ] as $template)
                 <a href="/explore"
-                   class="flex items-center justify-between px-4 py-3 rounded-xl border border-white/8 hover:border-white/20 hover:bg-white/3 transition group bg-[#0f1a1f]">
+                   class="flex items-center justify-between px-4 py-3 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition group bg-white/5">
                     <div>
                         <p class="text-sm text-white/70 group-hover:text-white transition">{{ $template['name'] }}</p>
                         <p class="text-xs text-white/30">{{ $template['days'] }}</p>
@@ -272,7 +272,7 @@
                 @endforeach
             </div>
             <a href="/explore"
-               class="mt-4 w-full block text-center text-xs text-white/30 hover:text-white/60 py-3 border border-white/8 rounded-xl hover:border-white/20 transition">
+               class="mt-4 w-full block text-center text-xs text-white/30 hover:text-white/60 py-3 border border-white/10 rounded-xl hover:border-white/20 transition">
                 Browse all templates →
             </a>
         </div>

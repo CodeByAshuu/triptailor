@@ -41,7 +41,7 @@
         <a href="/login"
            id="loginBtn"
            class="login-btn dark-mode px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
-            Login →
+            Login &rarr;
         </a>
     @endauth
 </div>
