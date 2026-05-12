@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -27,7 +25,7 @@ class AuthController extends Controller
         $validated = $request->validateWithBag('register', [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email:rfc', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', PasswordRule::min(8)->letters()->numbers()],
             'terms' => ['accepted'],
         ]);
@@ -35,15 +33,15 @@ class AuthController extends Controller
         $user = User::create([
             'name' => trim($validated['first_name'].' '.$validated['last_name']),
             'email' => $validated['email'],
-            'password' => $validated['password'],
+            'password' => Hash::make($validated['password']),
         ]);
-
-        event(new Registered($user));
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()
+            ->intended(route('dashboard'))
+            ->with('status', 'Account created successfully. Welcome to TripTailor.');
     }
 
     public function login(Request $request): RedirectResponse
@@ -55,12 +53,6 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
-        if (!User::where('email', $credentials['email'])->exists()) {
-            return back()->withErrors([
-                'email' => 'User does not exist.',
-            ], 'login')->withInput($request->only('email'));
-        }
-
         if (!Auth::attempt($credentials, $remember)) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
@@ -69,7 +61,9 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()
+            ->intended(route('dashboard'))
+            ->with('status', 'Signed in successfully.');
     }
 
     public function logout(Request $request): RedirectResponse
@@ -79,7 +73,9 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()
+            ->route('login')
+            ->with('status', 'You have been signed out.');
     }
 
     public function showForgotPasswordForm(): View
@@ -120,7 +116,7 @@ class AuthController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password): void {
                 $user->forceFill([
-                    'password' => $password,
+                    'password' => Hash::make($password),
                     'remember_token' => Str::random(60),
                 ])->save();
 
@@ -131,38 +127,5 @@ class AuthController extends Controller
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => __($status)])->onlyInput('email');
-    }
-
-    public function verificationNotice(): View|RedirectResponse
-    {
-        if (Auth::user()?->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard'));
-        }
-
-        return view('auth.verify-email');
-    }
-
-    public function verifyEmail(EmailVerificationRequest $request): RedirectResponse
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard'));
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        return redirect()->intended(route('dashboard'))->with('status', 'Email verified successfully.');
-    }
-
-    public function sendVerificationNotification(Request $request): RedirectResponse
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard'));
-        }
-
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('status', 'Verification link sent.');
     }
 }
