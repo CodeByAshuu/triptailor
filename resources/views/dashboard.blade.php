@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{ sidebarOpen: true }" class="flex h-screen overflow-hidden bg-[#1A1A1A] text-white font-sans antialiased selection:bg-orange-500/30">
+<!-- multiple menu eksath open ho rhe the (fixed now: x-data="{ sidebarOpen: true, activeTripMenu: null}") -->
+<div x-data="{ sidebarOpen: true, activeTripMenu: null}" class="flex h-screen overflow-hidden bg-[#1A1A1A] text-white font-sans antialiased selection:bg-orange-500/30">
 
     <!-- LEFT SIDEBAR PANEL (action menu fix krna hai) -->
     <aside 
@@ -50,7 +51,7 @@
         </nav>
 
         <!-- Scrollable Lists -->
-        <div class="px-3 mt-4 flex-1 overflow-y-auto space-y-5 pb-4">
+        <div class="px-3 mt-4 flex-1 overflow-y-auto overflow-x-visible space-y-5 pb-4">
             
             <!-- FAVORITES ACCORDION -->
             <div x-data="{ open: true }" class="group/section">
@@ -95,18 +96,19 @@
                 <div x-show="open" x-transition class="space-y-0.5">
                     <!-- Iterating trips -->
                     @forelse($trips ?? [1,2,3] as $trip)
-                    <div x-data="{ actionsOpen: false }" class="group/item flex items-center justify-between px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition relative cursor-pointer" @click.away="actionsOpen = false">
+                    <div class="group/item flex items-center justify-between px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition relative cursor-pointer" @click.away="activeTripMenu = null">
                         <a href="/trips/{{ is_object($trip) ? $trip->id : $trip }}" class="flex items-center gap-2.5 truncate flex-1">
                             <span class="w-2 h-2 rounded-full border border-white/30 group-hover/item:border-white/50"></span>
                             <span class="truncate">{{ is_object($trip) ? $trip->title : 'My Awesome Trip ' . $trip }}</span>
                         </a>
                         
-                        <button @click.stop="actionsOpen = !actionsOpen" class="opacity-0 group-hover/item:opacity-100 text-white/40 hover:text-white p-1 rounded-md transition hover:bg-white/10">
+                        <button @click.stop="activeTripMenu = activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }} ? null : {{ is_object($trip) ? $trip->id : $trip }}"
+                        class="opacity-0 group-hover/item:opacity-100 text-white/40 hover:text-white p-1 rounded-md transition hover:bg-white/10">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
                         </button>
 
                         <div
-                            x-show="actionsOpen"
+                            x-show="activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }}"
                             x-transition
                             x-anchor.right-start="$el.parentElement"
                             class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-9999 py-1"
