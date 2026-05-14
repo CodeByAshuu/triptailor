@@ -32,6 +32,21 @@
 
         <!-- Main Navigation -->
         <nav class="px-3 py-2 flex flex-col gap-0.5">
+            <a href="/trips/create"
+            class="group flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium text-orange-400 hover:text-white hover:bg-white/5 transition-all duration-200">
+
+                <!-- Plus Icon -->
+                <svg 
+                    class="w-4 h-4 transition-transform duration-200 group-hover:rotate-90"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24">
+
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                <span>New Trip</span>
+            </a>
             <a href="/dashboard" class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium text-white bg-white/10">
                 <svg class="w-4 h-4 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                 Dashboard
