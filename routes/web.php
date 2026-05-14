@@ -8,7 +8,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/explore', function () {
-    return view('explore');
+    return view('dashboard.explore');
 })->name('explore');
 
 Route::middleware('guest')->group(function () {
@@ -28,10 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('dashboard.home');
     })->name('dashboard');
 
+    Route::get('/search', function () {
+        return view('dashboard.search');
+    })->name('search');
+
+    Route::get('/filters', function () {
+        return view('dashboard.filters');
+    })->name('filters');
+
     Route::view('/trips', 'trips.trips')->name('trips.index');
-    Route::view('/trips/create', 'trips.create')->name('trips.create');
+    Route::get('/trips/create', function () {
+        return view('dashboard.create-trip');
+    })->name('trips.create');
     Route::view('/activities/create', 'activities.create')->name('activities.create');
 });
