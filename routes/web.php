@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.home');
     })->name('dashboard');
 
+    Route::get('/get-started', function () {
+        return view('dashboard.get-started');
+    })->name('get-started');
+
     Route::get('/search', function () {
         return view('dashboard.search');
     })->name('search');

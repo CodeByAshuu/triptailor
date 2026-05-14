@@ -95,13 +95,13 @@
             <div x-show="open" x-transition class="space-y-0.5">
                 <!-- Get Started -->
                 <div class="pt-2">
-                    <button class="w-full flex flex-col items-start gap-0.5 p-3 rounded-lg bg-white/2 border border-dashed border-white/10 hover:border-white/20 hover:bg-white/5 transition text-left group">
+                    <a href="/get-started" class="w-full flex flex-col items-start gap-0.5 p-3 rounded-lg bg-white/2 border border-dashed border-white/10 hover:border-white/20 hover:bg-white/5 transition text-left group">
                         <span class="text-sm font-medium text-white/80 group-hover:text-white flex items-center gap-1.5">
                             <svg class="w-4 h-4 text-white/40 group-hover:text-white/80 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                             Get Started
                         </span>
                         <span class="text-xs text-white/40 leading-relaxed">How to create a trip</span>
-                    </button>
+                    </a>
                 </div>
                 <!-- Iterating trips -->
                 @forelse($trips ?? [1,2,3] as $trip)
