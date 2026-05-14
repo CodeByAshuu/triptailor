@@ -86,7 +86,7 @@
                  RIGHT — Form Card  (3/5)
             ───────────────────────────────────── --}}
             <div class="lg:col-span-3">
-                <form action="{{ route('trips.store') }}" method="POST"
+                <form action="/trips" method="POST"
                       class="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
                     @csrf
 
