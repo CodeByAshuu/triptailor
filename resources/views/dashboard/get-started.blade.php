@@ -11,7 +11,7 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse shadow-[0_0_8px_rgba(251,146,60,0.8)]"></span>
                     Welcome to TripTailor
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1]">
                     Design your perfect journey.
                 </h1>
                 <p class="text-lg text-white/50 leading-relaxed max-w-xl">
@@ -117,7 +117,7 @@
         </section>
 
         <!-- Helpful Tips Section -->
-        <section class="bg-gradient-to-br from-[#1A1A1A] to-[#222222] border border-white/5 rounded-3xl p-8 md:p-10 relative overflow-hidden group">
+        <section class="bg-linear-to-br from-[#1A1A1A] to-[#222222] border border-white/5 rounded-3xl p-8 md:p-10 relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-orange-500/20 transition-colors duration-700"></div>
             <div class="relative z-10 flex flex-col md:flex-row gap-10">
                 <div class="md:w-1/3">
