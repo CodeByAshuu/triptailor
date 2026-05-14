@@ -34,14 +34,14 @@
             <button type="submit"
                     id="loginBtn"
                     class="login-btn dark-mode px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
-                Logout ->
+                Logout &rarr;
             </button>
         </form>
     @else
         <a href="{{ route('login') }}"
            id="loginBtn"
            class="login-btn dark-mode px-8 py-4 rounded-lg uppercase text-sm font-semibold font-heading tracking-widest transition-all duration-300 shadow-lg">
-            Login ->
+            Login &rarr;
         </a>
     @endauth
 </div>

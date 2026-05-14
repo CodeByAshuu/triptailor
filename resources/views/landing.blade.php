@@ -9,8 +9,9 @@
             <h1 class="text-7xl mb-4 text-white leading-23">We take travel, planning, and <br> itineraries to the next level.</h1>
         </div>
         <div class="flex gap-2">
-            <a href="/trips/create" class="bg-orange hover:bg-white text-sm text-white hover:text-black px-8 py-6 rounded-lg uppercase font-semibold font-heading tracking-widest">
-                Create Trip +
+            <a href="/trips/create" class="flex items-center gap-2 bg-orange hover:bg-white text-sm text-white hover:text-black px-8 py-6 rounded-lg uppercase font-semibold font-heading tracking-widest">
+                Create Trip
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </a>
             <a href="/explore" class="bg-card hover:bg-white text-sm text-white hover:text-black px-8 py-6 rounded-lg uppercase font-semibold font-heading tracking-widest">
                 Let's Explore &rarr;
