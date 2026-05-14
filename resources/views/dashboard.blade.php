@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- multiple menu eksath open ho rhe the (fixed now: x-data="{ sidebarOpen: true, activeTripMenu: null}") -->
-<div x-data="{ sidebarOpen: true, activeTripMenu: null}" class="flex h-screen overflow-hidden bg-[#1A1A1A] text-white font-sans antialiased selection:bg-orange-500/30">
+<div x-data="{ sidebarOpen: true, activeTripMenu: null}" class="flex min-h-screen bg-[#1A1A1A] text-white font-sans antialiased selection:bg-orange-500/30">
 
     <!-- LEFT SIDEBAR PANEL (action menu fix krna hai) -->
     <aside 
@@ -13,7 +13,7 @@
         x-transition:leave="transition-transform ease-in-out duration-300"
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full"
-        class="w-64 shrink-0 flex flex-col bg-[#111111] border-r border-white/5 relative z-20 h-full overflow-visible"
+        class="w-64 shrink-0 flex flex-col sticky top-0 h-screen bg-[#111111] border-r border-white/5 z-20 overflow-visible"
     >
         <!-- App Header -->
         <div class="px-4 py-4 flex items-center justify-between group">
@@ -66,7 +66,7 @@
         </nav>
 
         <!-- Scrollable Lists -->
-        <div class="px-3 mt-4 flex-1 overflow-y-auto overflow-x-visible space-y-5 pb-4">
+        <div class="px-3 mt-4 flex-1 overflow-y-auto overflow-x-visible space-y-5 pb-4 sidebar-scroll">
             
             <!-- FAVORITES ACCORDION -->
             <div x-data="{ open: true }" class="group/section">
@@ -192,7 +192,7 @@
     </aside>
 
     <!-- RIGHT MAIN WORKSPACE -->
-    <main class="flex-1 h-full flex flex-col relative min-w-0 bg-[#1A1A1A]">
+    <main class="flex-1 min-h-screen flex flex-col relative min-w-0 bg-[#1A1A1A]">
         
         <!-- Header -->
         <header class="flex items-center justify-between px-8 py-4 border-b border-white/5 shrink-0 bg-[#1A1A1A]/80 backdrop-blur-md sticky top-0 z-10">
@@ -214,7 +214,7 @@
         </header>
 
         <!-- Content Area -->
-        <div class="flex-1 overflow-y-auto p-8">
+        <div class="flex-1 p-8 side">
             <div class="max-w-5xl mx-auto space-y-12">
                 
                 <!-- Upcoming Trip Highlight (Like a pinned task/project) -->
