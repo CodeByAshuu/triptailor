@@ -8,7 +8,7 @@
 </head>
 <body class="min-h-screen bg-white font-sans text-gray-900">
     <main class="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-        <section class="relative flex min-h-[34rem] flex-col overflow-hidden bg-[#080D10] px-6 py-8 text-white lg:min-h-screen lg:px-10">
+        <section class="relative flex min-h-136 flex-col overflow-hidden bg-bg px-6 py-8 text-white lg:min-h-screen lg:px-10">
             <a href="{{ route('home') }}" class="flex w-fit items-center gap-3">
                 <img src="{{ asset('images/favicon.png') }}" alt="TripTailor Logo" class="h-8 w-auto">
                 <span class="text-2xl font-semibold">triptailor</span>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div id="auth-slider" class="flex w-[200%] transition-transform duration-500 ease-in-out" style="{{ $errors->register->any() ? 'transform: translateX(-50%)' : '' }}">
-                    <section class="w-1/2 flex-shrink-0 pr-0">
+                    <section class="w-1/2 shrink-0 pr-0">
                         <div class="mb-6">
                             <h2 class="text-3xl font-extrabold tracking-tight">Welcome back</h2>
                             <p class="mt-2 text-sm text-gray-500">Sign in to continue planning your adventures.</p>
@@ -101,7 +101,7 @@
                         </form>
                     </section>
 
-                    <section class="w-1/2 flex-shrink-0 pl-6">
+                    <section class="w-1/2 shrink-0 pl-6">
                         <div class="mb-6">
                             <h2 class="text-3xl font-extrabold tracking-tight">Start your journey</h2>
                             <p class="mt-2 text-sm text-gray-500">Create an account and plan your first adventure.</p>
