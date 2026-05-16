@@ -2,14 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExploreController;
 
 Route::get('/', function () {
     return view('landing');
 })->name('home');
 
-Route::get('/explore', function () {
-    return view('dashboard.explore');
-})->name('explore');
+Route::get('/explore', [ExploreController::class, 'index'])->name('explore');
 
 Route::middleware('guest')->group(function () {
     Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
