@@ -22,11 +22,11 @@
             <div class="grid grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-white/70">Start Date</label>
-                    <input type="date" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white/60 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition [color-scheme:dark]">
+                    <input type="date" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white/60 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition scheme:dark">
                 </div>
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-white/70">End Date</label>
-                    <input type="date" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white/60 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition [color-scheme:dark]">
+                    <input type="date" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white/60 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 transition scheme:dark">
                 </div>
             </div>
 

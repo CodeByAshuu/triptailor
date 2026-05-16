@@ -85,7 +85,7 @@
                     <button @click="plusOpen = !plusOpen" class="opacity-0 group-hover/section:opacity-100 text-white/40 hover:text-white p-0.5 rounded-md transition hover:bg-white/10">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                     </button>
-                    <div x-show="plusOpen" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-[9999] py-1">
+                    <div x-show="plusOpen" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-9999 py-1">
                         <a href="/trips/create" class="block w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition">Add Trip</a>
                         <a href="/explore" class="block w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition">Browse Templates</a>
                     </div>
@@ -95,13 +95,13 @@
             <div x-show="open" x-transition class="space-y-0.5">
                 <!-- Get Started -->
                 <div class="pt-2">
-                    <button class="w-full flex flex-col items-start gap-0.5 p-3 rounded-lg bg-white/2 border border-dashed border-white/10 hover:border-white/20 hover:bg-white/5 transition text-left group">
+                    <a href="/get-started" class="w-full flex flex-col items-start gap-0.5 p-3 rounded-lg bg-white/2 border border-dashed border-white/10 hover:border-white/20 hover:bg-white/5 transition text-left group">
                         <span class="text-sm font-medium text-white/80 group-hover:text-white flex items-center gap-1.5">
                             <svg class="w-4 h-4 text-white/40 group-hover:text-white/80 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                             Get Started
                         </span>
                         <span class="text-xs text-white/40 leading-relaxed">How to create a trip</span>
-                    </button>
+                    </a>
                 </div>
                 <!-- Iterating trips -->
                 @forelse($trips ?? [1,2,3] as $trip)
@@ -115,7 +115,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
                     </button>
 
-                    <div x-show="activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }}" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-[9999] py-1">
+                    <div x-show="activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }}" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-9999 py-1">
                         <a href="/trips/{{ is_object($trip) ? $trip->id : $trip }}/edit" class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
                             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg> Edit Trip
                         </a>
