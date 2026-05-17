@@ -25,7 +25,7 @@
         <div class="w-1/2">
             <div class="sticky top-25">
                 <img 
-                    src="images/destination-see.jpg" 
+                    src="{{ asset('images/destination-see.jpg') }}" 
                     alt="destination-see" 
                     class="h-125 w-full object-cover rounded-lg"
                 >
@@ -250,8 +250,8 @@
             <section id="create-trip"
                 class="feature-section min-h-screen border-t border-white/10 pt-12">
 
-                <div class="grid grid-cols-2 gap-12 items-center">
-                    <div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                    <div class="md:col-span-5">
                         <p class="text-6xl text-text-muted mb-12">01</p>
 
                         <h2 class="text-5xl text-white mb-6 font-heading">
@@ -293,9 +293,9 @@
                     </div>
 
                     <!-- IMAGE -->
-                    <div>
-                        <img src="/images/create-trip.jpg"
-                            class="rounded-2xl opacity-90 hover:opacity-100 transition duration-500">
+                    <div class="md:col-span-7">
+                        <img src="{{ asset('images/create-trip.jpg') }}"
+                            class="w-full rounded-2xl opacity-90 hover:opacity-100 transition duration-500 shadow-2xl">
                     </div>
 
                 </div>
@@ -306,9 +306,9 @@
             <section id="edit-trip"
                 class="feature-section min-h-screen border-t border-white/10 pt-12">
 
-                <div class="grid grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
 
-                    <div>
+                    <div class="md:col-span-5">
 
                         <p class="text-6xl text-text-muted mb-12">02</p>
 
@@ -343,9 +343,9 @@
 
                     </div>
 
-                    <div>
-                        <img src="/images/edit-trip.png"
-                            class="rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
+                    <div class="md:col-span-7">
+                        <img src="{{ asset('images/edit_trip.jpg') }}"
+                            class="w-full rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
                     </div>
 
                 </div>
@@ -356,9 +356,9 @@
             <section id="add-activity"
                 class="feature-section min-h-screen border-t border-white/10 pt-12">
 
-                <div class="grid grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
 
-                    <div>
+                    <div class="md:col-span-4">
 
                         <p class="text-6xl text-text-muted mb-12">03</p>
 
@@ -373,9 +373,9 @@
 
                     </div>
 
-                    <div>
-                        <img src="/images/add-activity.png"
-                            class="rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
+                    <div class="md:col-span-8">
+                        <img src="{{ asset('images/organise_activities.jpg') }}"
+                            class="w-full rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
                     </div>
 
                 </div>
@@ -386,9 +386,9 @@
             <section id="save-trip"
                 class="feature-section min-h-screen border-t border-white/10 pt-12">
 
-                <div class="grid grid-cols-2 gap-12 items-center">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
 
-                    <div>
+                    <div class="md:col-span-4">
 
                         <p class="text-6xl text-text-muted mb-12">04</p>
 
@@ -403,9 +403,9 @@
 
                     </div>
 
-                    <div>
-                        <img src="/images/save-trip.png"
-                            class="rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
+                    <div class="md:col-span-8">
+                        <img src="{{ asset('images/revisit.jpg') }}"
+                            class="w-full rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
                     </div>
 
                 </div>
@@ -518,9 +518,9 @@
                 All your trips, organized in one place.
             </p>
             <div class="flex gap-4">
-                <a href="#" class="text-text-muted hover:text-white transition text-sm">Twitter</a>
-                <a href="#" class="text-text-muted hover:text-white transition text-sm">Instagram</a>
-                <a href="#" class="text-text-muted hover:text-white transition text-sm">LinkedIn</a>
+                <a href="https://x.com/" class="text-text-muted hover:text-white transition text-sm">Twitter</a>
+                <a href="https://www.instagram.com/?hl=en" class="text-text-muted hover:text-white transition text-sm">Instagram</a>
+                <a href="https://www.linkedin.com/" class="text-text-muted hover:text-white transition text-sm">LinkedIn</a>
             </div>
         </div>
 
