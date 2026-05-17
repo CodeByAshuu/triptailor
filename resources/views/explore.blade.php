@@ -267,129 +267,127 @@
             </div>
 
         </div>{{-- /main grid --}}
-    </div>
+    <script>
+    if (typeof explorePage !== 'function') {
+        window.explorePage = function(initialItems, fallbackImage) {
+            return {
+                allItems: initialItems,
+                fallbackImage: fallbackImage,
+                query: '',
+                activeFilter: 'all',
+                visibleCount: 4,           // start with 4 cards shown
+                expandedIds: [],
+
+                // ---- filters definition ----
+                filters: [
+                    { label: 'All', value: 'all' },
+                    { label: 'Beach', value: 'Beach' },
+                    { label: 'Mountain', value: 'Mountain' },
+                    { label: 'City', value: 'City' },
+                    { label: 'Safari', value: 'Safari' },
+                    { label: 'Cruise', value: 'Cruise' },
+                ],
+
+                // ---- computed properties ----
+                get filteredItems() {
+                    let items = this.allItems;
+
+                    // filter by search query
+                    if (this.query.trim() !== '') {
+                        const q = this.query.toLowerCase();
+                        items = items.filter(item => {
+                            return (item.title && item.title.toLowerCase().includes(q)) ||
+                                   (item.location && item.location.toLowerCase().includes(q)) ||
+                                   (item.country && item.country.toLowerCase().includes(q)) ||
+                                   (item.category && item.category.toLowerCase().includes(q));
+                        });
+                    }
+
+                    // filter by category
+                    if (this.activeFilter !== 'all') {
+                        items = items.filter(item => item.category === this.activeFilter);
+                    }
+
+                    return items;
+                },
+
+                get totalFiltered() {
+                    return this.filteredItems.length;
+                },
+
+                // recommended section: only 4 cards at a time
+                get visibleItems() {
+                    return this.filteredItems.slice(0, this.visibleCount);
+                },
+
+                // stacked tours: all filtered items (full list)
+                get stackedItems() {
+                    return this.filteredItems;
+                },
+
+                // featured item: first featured in filtered list
+                get featuredItem() {
+                    return this.filteredItems.find(item => item.featured) || null;
+                },
+
+                // summary text
+                get resultSummary() {
+                    const total = this.totalFiltered;
+                    const shown = Math.min(this.visibleCount, total);
+                    if (total === 0) return 'No destinations found.';
+                    return `Showing ${shown} of ${total} recommended places`;
+                },
+
+                // ---- methods ----
+                setFilter(value) {
+                    this.activeFilter = value;
+                    this.visibleCount = 4; // reset pagination when filter changes
+                },
+
+                loadMore() {
+                    if (this.visibleCount < this.totalFiltered) {
+                        this.visibleCount += 4;
+                    }
+                },
+
+                imageFor(item) {
+                    return item.image || this.fallbackImage;
+                },
+
+                handleImageError(event) {
+                    const fallback = event.target.dataset.fallback || this.fallbackImage;
+                    if (event.target.src !== fallback) {
+                        event.target.src = fallback;
+                    }
+                },
+
+                formatPrice(price) {
+                    if (!price || price === 'Contact us') return 'Contact us';
+                    const num = parseFloat(price.toString().replace(/[^0-9.]/g, ''));
+                    if (isNaN(num)) return 'Contact us';
+                    return '₹' + num.toLocaleString();
+                },
+
+                truncate(text, length) {
+                    if (!text) return '';
+                    return text.length > length ? text.substring(0, length) + '...' : text;
+                },
+
+                isExpanded(id) {
+                    return this.expandedIds.includes(id);
+                },
+
+                toggleReadMore(id) {
+                    const idx = this.expandedIds.indexOf(id);
+                    if (idx > -1) {
+                        this.expandedIds.splice(idx, 1);
+                    } else {
+                        this.expandedIds.push(id);
+                    }
+                },
+            };
+        };
+    }
+    </script>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('explorePage', (initialItems, fallbackImage) => ({
-            allItems: initialItems,
-            fallbackImage: fallbackImage,
-            query: '',
-            activeFilter: 'all',
-            visibleCount: 4,           // start with 4 cards shown
-            expandedIds: [],
-
-            // ---- filters definition ----
-            filters: [
-                { label: 'All', value: 'all' },
-                { label: 'Beach', value: 'Beach' },
-                { label: 'Mountain', value: 'Mountain' },
-                { label: 'City', value: 'City' },
-                { label: 'Safari', value: 'Safari' },
-                { label: 'Cruise', value: 'Cruise' },
-            ],
-
-            // ---- computed properties ----
-            get filteredItems() {
-                let items = this.allItems;
-
-                // filter by search query
-                if (this.query.trim() !== '') {
-                    const q = this.query.toLowerCase();
-                    items = items.filter(item => {
-                        return (item.title && item.title.toLowerCase().includes(q)) ||
-                               (item.location && item.location.toLowerCase().includes(q)) ||
-                               (item.country && item.country.toLowerCase().includes(q)) ||
-                               (item.category && item.category.toLowerCase().includes(q));
-                    });
-                }
-
-                // filter by category
-                if (this.activeFilter !== 'all') {
-                    items = items.filter(item => item.category === this.activeFilter);
-                }
-
-                return items;
-            },
-
-            get totalFiltered() {
-                return this.filteredItems.length;
-            },
-
-            // recommended section: only 4 cards at a time
-            get visibleItems() {
-                return this.filteredItems.slice(0, this.visibleCount);
-            },
-
-            // stacked tours: all filtered items (full list)
-            get stackedItems() {
-                return this.filteredItems;
-            },
-
-            // featured item: first featured in filtered list
-            get featuredItem() {
-                return this.filteredItems.find(item => item.featured) || null;
-            },
-
-            // summary text
-            get resultSummary() {
-                const total = this.totalFiltered;
-                const shown = Math.min(this.visibleCount, total);
-                if (total === 0) return 'No destinations found.';
-                return `Showing ${shown} of ${total} recommended places`;
-            },
-
-            // ---- methods ----
-            setFilter(value) {
-                this.activeFilter = value;
-                this.visibleCount = 4; // reset pagination when filter changes
-            },
-
-            loadMore() {
-                if (this.visibleCount < this.totalFiltered) {
-                    this.visibleCount += 4;
-                }
-            },
-
-            imageFor(item) {
-                return item.image || this.fallbackImage;
-            },
-
-            handleImageError(event) {
-                const fallback = event.target.dataset.fallback || this.fallbackImage;
-                if (event.target.src !== fallback) {
-                    event.target.src = fallback;
-                }
-            },
-
-            formatPrice(price) {
-                if (!price || price === 'Contact us') return 'Contact us';
-                const num = parseFloat(price.toString().replace(/[^0-9.]/g, ''));
-                if (isNaN(num)) return 'Contact us';
-                return '$' + num.toLocaleString();
-            },
-
-            truncate(text, length) {
-                if (!text) return '';
-                return text.length > length ? text.substring(0, length) + '...' : text;
-            },
-
-            isExpanded(id) {
-                return this.expandedIds.includes(id);
-            },
-
-            toggleReadMore(id) {
-                const idx = this.expandedIds.indexOf(id);
-                if (idx > -1) {
-                    this.expandedIds.splice(idx, 1);
-                } else {
-                    this.expandedIds.push(id);
-                }
-            },
-        }));
-    });
-</script>
-@endpush

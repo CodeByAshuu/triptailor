@@ -231,8 +231,9 @@
 </div>
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('searchWorkspace', () => ({
+if (typeof searchWorkspace !== 'function') {
+    window.searchWorkspace = function() {
+        return {
             searchQuery: '',
             results: [],
             loading: false,
@@ -332,7 +333,8 @@
                 this.results = [];
                 this.loading = false;
             }
-        }));
-    });
+        };
+    };
+}
 </script>
 @endsection

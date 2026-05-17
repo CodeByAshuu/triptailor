@@ -19,7 +19,7 @@
         </div>
 
         <!-- 1. UP NEXT / HIGHLIGHT SECTION -->
-        <section class="space-y-4">No
+        <section class="space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Up Next</h2>
                 @if($upcomingTrip)
@@ -46,8 +46,10 @@
                                     Starts Today
                                 @elseif($daysRemaining === 1)
                                     Starts Tomorrow
-                                @else
+                                @elseif($daysRemaining > 1)
                                     In {{ $daysRemaining }} days
+                                @else
+                                    Active / Completed
                                 @endif
                             </span>
 

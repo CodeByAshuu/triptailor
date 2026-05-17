@@ -154,7 +154,7 @@
                     <span class="detail-label">Estimated Budget</span>
                     <span class="detail-value">
                         @if($trip->budget)
-                            ${{ number_format($trip->budget, 2) }}
+                            ₹{{ number_format($trip->budget, 2) }}
                         @else
                             Not Specified
                         @endif

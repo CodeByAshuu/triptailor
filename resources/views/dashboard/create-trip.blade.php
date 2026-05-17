@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('workspace')
-<div x-data="tripForm()" class="min-h-full h-full flex flex-col md:flex-row bg-[#111111] text-zinc-100 font-sans">
+<div x-data="tripForm('{{ addslashes(old('destination', $trip->destination ?? '')) }}', {{ old('tags') ? json_encode(old('tags')) : (isset($trip) && $trip->tags ? json_encode($trip->tags) : '[]') }}, '{{ $trip->id ?? '' }}')" class="min-h-full h-full flex flex-col md:flex-row bg-[#111111] text-zinc-100 font-sans">
     
     
 
@@ -225,7 +225,7 @@
                             <label for="budget" class="block text-xs font-medium text-zinc-400 mb-1.5 transition-colors group-focus-within:text-indigo-400">Estimated Budget</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-zinc-500 sm:text-sm">$</span>
+                                    <span class="text-zinc-500 sm:text-sm">₹</span>
                                 </div>
                                 <input type="number" name="budget" id="budget" placeholder="0.00" step="0.01" min="0"
                                     class="w-full bg-[#1A1A1A] border border-zinc-800 rounded-lg pl-8 pr-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all shadow-inner"
@@ -274,9 +274,9 @@
                         <svg class="w-4 h-4 mr-2 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                         Export PDF
                     </button>
-                    <button type="button" class="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 mr-2 transition-colors">
+                    <a href="{{ isset($trip) ? route('trips.show', $trip->id) : route('dashboard') }}" class="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 mr-2 transition-colors">
                         Cancel
-                    </button>
+                    </a>
                     <button type="submit" 
                         class="inline-flex items-center justify-center rounded-lg bg-indigo-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition-all hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]">
                         {{ isset($trip) ? 'Save Changes' : 'Create Trip' }}
@@ -342,18 +342,19 @@
 </style>
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('tripForm', () => ({
-            destination: {!! json_encode(old('destination', $trip->destination ?? '')) !!},
+if (typeof tripForm !== 'function') {
+    window.tripForm = function(initialDestination, initialTags, tripId) {
+        return {
+            destination: initialDestination,
             weather: null,
             loadingWeather: false,
             errorWeather: false,
             weatherTimeout: null,
-            draftCoverImage: localStorage.getItem('trip_' + '{{ $trip->id ?? '' }}' + '_cover') || null,
+            draftCoverImage: localStorage.getItem('trip_' + tripId + '_cover') || null,
             
             // Labels properties
             presets: ['Family', 'Work', 'Solo Travel', 'Friends', 'Adventure', 'Relaxation', 'Archive'],
-            selectedLabels: {!! old('tags') ? json_encode(old('tags')) : (isset($trip) && $trip->tags ? json_encode($trip->tags) : '[]') !!} || [],
+            selectedLabels: initialTags || [],
             customLabelInput: '',
             
             init() {
@@ -426,7 +427,7 @@
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Estimated Budget</span>
-                                <span class="detail-value">${budget ? '$' + parseFloat(budget).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not Set'}</span>
+                                <span class="detail-value">${budget ? '₹' + parseFloat(budget).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not Set'}</span>
                             </div>
                         </div>
                     </div>
@@ -524,7 +525,8 @@
                     }
                 }, 800); // 800ms debounce
             }
-        }));
-    });
+        };
+    };
+}
 </script>
 @endsection

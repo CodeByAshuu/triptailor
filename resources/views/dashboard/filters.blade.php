@@ -115,7 +115,7 @@
                                 </div>
                                 @if($trip->budget)
                                     <div class="flex items-center gap-1">
-                                        <span class="text-zinc-600 font-bold">$</span>
+                                        <span class="text-zinc-600 font-bold">₹</span>
                                         <span>{{ number_format($trip->budget, 2) }}</span>
                                     </div>
                                 @endif

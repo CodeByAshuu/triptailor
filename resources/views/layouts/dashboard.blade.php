@@ -78,7 +78,21 @@
                             
                             if (newWorkspace) {
                                 // Swap content
-                                document.querySelector('#workspace-container').innerHTML = newWorkspace.innerHTML;
+                                let container = document.querySelector('#workspace-container');
+                                container.innerHTML = newWorkspace.innerHTML;
+                                
+                                // Dynamically clone and execute scripts in the new content
+                                newWorkspace.querySelectorAll('script').forEach(oldScript => {
+                                    let newScript = document.createElement('script');
+                                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                                    container.appendChild(newScript);
+                                });
+
+                                // Re-initialize Alpine tree to discover/boot new components
+                                if (window.Alpine) {
+                                    window.Alpine.initTree(container);
+                                }
                                 
                                 // Update Title
                                 document.title = doc.title;
