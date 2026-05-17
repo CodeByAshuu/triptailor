@@ -9,6 +9,7 @@
         "php": "^8.3",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
+        "resend/resend-laravel": "^1.4",
         "symfony/error-handler": "^7.4",
         "symfony/var-dumper": "^7.4"
     },
