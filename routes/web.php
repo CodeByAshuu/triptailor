@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('landing');
@@ -28,9 +29,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.home');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/get-started', function () {
         return view('dashboard.get-started');
