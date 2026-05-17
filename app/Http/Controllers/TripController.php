@@ -57,6 +57,18 @@ class TripController extends Controller
             ->with('success', 'Trip deleted successfully.');
     }
 
+    public function toggleFavorite(Trip $trip)
+    {
+        if ($trip->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $trip->is_favorite = !$trip->is_favorite;
+        $trip->save();
+
+        return redirect()->back()->with('success', $trip->is_favorite ? 'Trip added to favorites.' : 'Trip removed from favorites.');
+    }
+
     public function getWeather(Request $request, WeatherService $weatherService)
     {
         $city = $request->input('city');

@@ -50,4 +50,5 @@ Route::middleware('auth')->group(function () {
     Route::view('/activities/create', 'activities.create')->name('activities.create');
     Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
     Route::delete('/trips/{trip}', [TripController::class, 'destroy'])->name('trips.destroy');
+    Route::post('/trips/{trip}/toggle-favorite', [TripController::class, 'toggleFavorite'])->name('trips.toggle-favorite');
 });
