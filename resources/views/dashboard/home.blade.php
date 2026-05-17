@@ -105,7 +105,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 
                 <!-- CTA Create Trip Card -->
-                <a href="{{ route('trips.create') }}" class="group bg-transparent border border-dashed border-zinc-800 hover:border-zinc-700/80 hover:bg-[#1A1A1A]/40 rounded-xl transition duration-300 flex flex-col items-center justify-center min-h-[14.5rem] p-5 gap-3.5 cursor-pointer">
+                <a href="{{ route('trips.create') }}" class="group bg-transparent border border-dashed border-zinc-800 hover:border-zinc-700/80 hover:bg-[#1A1A1A]/40 rounded-xl transition duration-300 flex flex-col items-center justify-center min-h-58 p-5 gap-3.5 cursor-pointer">
                     <div class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center text-zinc-500 group-hover:text-white group-hover:bg-indigo-500 transition-all duration-300 group-hover:scale-105 shadow">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                     </div>
@@ -130,7 +130,7 @@
                             $statusClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
                         }
                     @endphp
-                    <div class="group bg-[#1A1A1A] border border-zinc-850 rounded-xl hover:border-zinc-700/80 transition-all duration-300 shadow-lg flex flex-col justify-between min-h-[14.5rem] relative overflow-hidden">
+                    <div class="group bg-[#1A1A1A] border border-zinc-850 rounded-xl hover:border-zinc-700/80 transition-all duration-300 shadow-lg flex flex-col justify-between min-h-58 relative overflow-hidden">
                         
                         <div class="p-5 space-y-4">
                             <!-- Card Header (Dynamic status and Favorite Heart) -->
@@ -260,7 +260,7 @@
                         <div class="flex gap-3">
                             <div class="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-400 shrink-0">2</div>
                             <div class="space-y-0.5">
-                                <p class="text-xs font-semibold text-zinc-200 font-medium">Categorize with tags</p>
+                                <p class="text-xs font-semibold text-zinc-200">Categorize with tags</p>
                                 <p class="text-[10px] text-zinc-500 leading-relaxed">Tag with preset labels like Solo Travel or Relaxation for instant filtering.</p>
                             </div>
                         </div>
