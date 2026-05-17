@@ -49,4 +49,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/trips/weather-preview', [TripController::class, 'getWeather'])->name('trips.weather');
     Route::view('/activities/create', 'activities.create')->name('activities.create');
     Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
+    Route::delete('/trips/{trip}', [TripController::class, 'destroy'])->name('trips.destroy');
 });

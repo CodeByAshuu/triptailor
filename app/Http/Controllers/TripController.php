@@ -37,9 +37,24 @@ class TripController extends Controller
     public function show(Trip $trip)
     {
         // Optional: authorize so users can't view each other's trips
-        // $this->authorize('view', $trip);
+        if ($trip->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         return view('trips.show', compact('trip'));
+    }
+
+    public function destroy(Trip $trip)
+    {
+        if ($trip->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $trip->delete();
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Trip deleted successfully.');
     }
 
     public function getWeather(Request $request, WeatherService $weatherService)
