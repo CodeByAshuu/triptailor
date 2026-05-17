@@ -45,7 +45,6 @@ document.addEventListener('alpine:init', () => {
             { label: 'All tours', value: 'all' },
             { label: 'Asia', value: 'asia' },
             { label: 'Europe', value: 'europe' },
-            { label: 'USA', value: 'usa' },
             { label: 'Adventure', value: 'adventure' },
             { label: 'Beach', value: 'beach' },
             { label: 'Culture', value: 'culture' },
