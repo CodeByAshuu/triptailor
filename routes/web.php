@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
     return view('landing');
@@ -35,9 +36,8 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.get-started');
     })->name('get-started');
 
-    Route::get('/search', function () {
-        return view('dashboard.search');
-    })->name('search');
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
+    Route::get('/search/query', [SearchController::class, 'query'])->name('search.query');
 
     Route::get('/filters', function () {
         $user = auth()->user();
