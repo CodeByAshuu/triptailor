@@ -70,8 +70,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/trips/create', [TripController::class, 'create'])->name('trips.create');
     Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
     Route::get('/trips/weather-preview', [TripController::class, 'getWeather'])->name('trips.weather');
+    Route::get('/trips/weather-forecast', [TripController::class, 'getForecast'])->name('trips.forecast');
     Route::view('/activities/create', 'activities.create')->name('activities.create');
     Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
+    Route::get('/trips/{trip}/edit', [TripController::class, 'edit'])->name('trips.edit');
+    Route::put('/trips/{trip}', [TripController::class, 'update'])->name('trips.update');
+    Route::get('/trips/{trip}/export-pdf', [TripController::class, 'exportPdf'])->name('trips.export-pdf');
     Route::delete('/trips/{trip}', [TripController::class, 'destroy'])->name('trips.destroy');
     Route::post('/trips/{trip}/toggle-favorite', [TripController::class, 'toggleFavorite'])->name('trips.toggle-favorite');
 });
