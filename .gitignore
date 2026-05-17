@@ -30,3 +30,4 @@ Thumbs.db
 start-server.bat
 composer.phar
 migrate.bat
+.env
