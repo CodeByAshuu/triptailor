@@ -2,7 +2,7 @@
 
 @section('workspace')
 <div x-data="searchWorkspace()" class="p-8 min-h-full bg-[#111111] text-zinc-100 font-sans selection:bg-indigo-500/30">
-    <div class="max-w-4xl mx-auto space-y-8">
+    <div class="mx-auto space-y-8">
         
         <!-- Header / Hero -->
         <div class="border-b border-zinc-800/80 pb-6">
