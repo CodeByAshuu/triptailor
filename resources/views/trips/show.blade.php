@@ -184,6 +184,56 @@
                     </div>
                 </div>
 
+                <!-- Experience Center -->
+                <div class="mt-6 bg-[#222] border border-white/5 rounded-2xl p-6 flex flex-col">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
+                            <span class="w-1 h-1 rounded-full bg-indigo-500"></span> Experience Center
+                        </span>
+                        <span class="text-[9px] font-bold bg-indigo-500/20 text-indigo-400 px-2.5 py-1 rounded-md uppercase tracking-wider" x-text="`climate: ${detectedLocationType}`"></span>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <h3 class="text-lg font-bold text-white tracking-tight lowercase">recommended local activities</h3>
+                        <p class="text-xs text-white/40 mt-1 leading-relaxed">custom adventures picked based on weather conditions and geography of {{ $trip->destination }}.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <template x-for="act in recommendedActivities" :key="act.name">
+                            <div class="bg-white/2 border border-white/5 rounded-xl hover:border-indigo-500/30 transition flex flex-col justify-between group relative overflow-hidden h-56">
+                                <!-- Card Background Image -->
+                                <img :src="act.image" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="">
+                                <!-- Gradient Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent z-0"></div>
+                                
+                                <!-- Top Metadata -->
+                                <div class="relative z-10 p-4 flex justify-between items-start">
+                                    <span class="px-2 py-0.5 rounded bg-black/60 border border-white/10 text-[9px] font-bold text-white/90 uppercase tracking-wider" x-text="act.category"></span>
+                                    <span class="text-lg bg-black/60 backdrop-blur-xs w-7 h-7 rounded-lg flex items-center justify-center border border-white/10" x-text="act.icon"></span>
+                                </div>
+                                
+                                <!-- Bottom Content -->
+                                <div class="relative z-10 p-4 pt-0 space-y-2">
+                                    <div>
+                                        <h4 class="text-xs font-bold text-white tracking-tight lowercase" x-text="act.name"></h4>
+                                        <p class="text-[10px] text-white/60 mt-1 leading-normal lowercase" x-text="act.description"></p>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between pt-2 border-t border-white/10 mt-1">
+                                        <div class="flex items-center gap-0.5 text-xs font-bold text-white">
+                                            <span class="text-orange-500">₹</span>
+                                            <span x-text="act.cost.toLocaleString('en-IN')"></span>
+                                        </div>
+                                        <button @click.stop="addActivityToBudget(act.name, act.cost)" class="text-[9px] font-bold bg-white text-black hover:bg-indigo-500 hover:text-white px-2.5 py-1 rounded-md transition flex items-center gap-1 active:scale-95 shadow-lg">
+                                            <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/></svg> add to budget
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Column 2 (Right Side) -->
@@ -404,6 +454,93 @@ if (typeof tripDetails !== 'function') {
                             this.forecast = data;
                         }
                     });
+            },
+
+            get detectedLocationType() {
+                const dest = destination.toLowerCase();
+                const temp = this.forecast.length > 0 ? this.forecast[0].temperature : null;
+                
+                if (temp !== null && temp < 12) {
+                    return 'cold';
+                }
+                
+                if (dest.includes('beach') || dest.includes('goa') || dest.includes('bali') || 
+                    dest.includes('hawaii') || dest.includes('maldives') || dest.includes('phuket') || 
+                    dest.includes('pattaya') || dest.includes('island') || dest.includes('coast') || 
+                    dest.includes('sea') || dest.includes('ocean') || dest.includes('miami')) {
+                    return 'beach';
+                }
+                
+                if (temp !== null && temp >= 26) {
+                    return 'warm';
+                }
+                
+                return 'scenic';
+            },
+            
+            get isDomestic() {
+                const dest = destination.toLowerCase();
+                const indianKeywords = [
+                    'india', 'goa', 'mumbai', 'delhi', 'kerala', 'rajasthan', 'bangalore', 
+                    'chennai', 'kolkata', 'jaipur', 'agra', 'manali', 'shimla', 'ladakh', 
+                    'srinagar', 'leh', 'rishikesh', 'pondicherry', 'hampi', 'varanasi',
+                    'pune', 'hyderabad', 'amritsar', 'darjeeling', 'ooty', 'munnar'
+                ];
+                return indianKeywords.some(keyword => dest.includes(keyword));
+            },
+
+            get recommendedActivities() {
+                const type = this.detectedLocationType;
+                const isDom = this.isDomestic;
+                
+                if (type === 'cold') {
+                    return [
+                        { name: 'Ice Skating', category: '❄️ Winter Sport', cost: isDom ? 800 : 3200, icon: '⛸️', image: 'https://loremflickr.com/600/450/ice-skating,winter?random=' + tripId, description: 'Glide across frozen lakes and scenic ice rinks.' },
+                        { name: 'Snowboarding / Skiing', category: '❄️ Winter Sport', cost: isDom ? 3500 : 12500, icon: '🏂', image: 'https://loremflickr.com/600/450/snowboarding,skiing?random=' + tripId, description: 'Shred down fresh powder slopes with professional gear.' },
+                        { name: 'Alpine Gondola Ride', category: '⛰️ Scenic view', cost: isDom ? 1200 : 6500, icon: '🚠', image: 'https://loremflickr.com/600/450/gondola-lift,mountain?random=' + tripId, description: 'Soar above snow-covered peaks and evergreen forests.' },
+                        { name: 'Hot Chocolate Tasting', category: '☕ Culinary', cost: isDom ? 350 : 1200, icon: '🍫', image: 'https://loremflickr.com/600/450/hot-chocolate?random=' + tripId, description: 'Cozy up in a mountainside chalet with premium warm cocoa.' },
+                        { name: 'Geothermal Spa Soak', category: '♨️ Relaxation', cost: isDom ? 2500 : 9500, icon: '🧖', image: 'https://loremflickr.com/600/450/hot-spring?random=' + tripId, description: 'Unwind in steaming hot mineral pools amidst freezing air.' },
+                    ];
+                } else if (type === 'beach') {
+                    return [
+                        { name: 'Surfing Lesson', category: '🌊 Aquatic', cost: isDom ? 1500 : 5500, icon: '🏄', image: 'https://loremflickr.com/600/450/surfing,beach?random=' + tripId, description: 'Catch your first waves with certified local instructors.' },
+                        { name: 'Scuba Diving / Snorkeling', category: '🤿 Aquatic', cost: isDom ? 4500 : 15000, icon: '🐠', image: 'https://loremflickr.com/600/450/scuba-diving,snorkeling?random=' + tripId, description: 'Explore vibrant coral reefs and swim with tropical marine life.' },
+                        { name: 'Jet Ski Adventure', category: '⚡ Water Sport', cost: isDom ? 2000 : 7500, icon: '🚀', image: 'https://loremflickr.com/600/450/jet-ski?random=' + tripId, description: 'Feel the thrill of speeding across the ocean surface.' },
+                        { name: 'Sunset Beach Yoga', category: '🧘 Wellness', cost: isDom ? 500 : 2500, icon: '🌅', image: 'https://loremflickr.com/600/450/beach-yoga?random=' + tripId, description: 'Realign your body and mind to the gentle sound of ocean waves.' },
+                        { name: 'Island Boat Cruise', category: '⛵ Sightseeing', cost: isDom ? 3000 : 12000, icon: '🛥️', image: 'https://loremflickr.com/600/450/boat-cruise,ocean?random=' + tripId, description: 'Sail to hidden lagoons and remote beaches with lunch included.' },
+                    ];
+                } else if (type === 'warm') {
+                    return [
+                        { name: 'Skateboarding Park Tour', category: '🛹 Street Sport', cost: isDom ? 300 : 2000, icon: '🛹', image: 'https://loremflickr.com/600/450/skateboarding?random=' + tripId, description: 'Explore high-end local skateparks and urban spots.' },
+                        { name: 'Hot Air Balloon Ride', category: '🎈 Adventure', cost: isDom ? 8500 : 28000, icon: '🎈', image: 'https://loremflickr.com/600/450/hot-air-balloon?random=' + tripId, description: 'Float gently above beautiful valleys at sunrise.' },
+                        { name: 'Historic Walking Tour', category: '🏛️ Culture', cost: isDom ? 600 : 3500, icon: '🚶', image: 'https://loremflickr.com/600/450/historic-street?random=' + tripId, description: 'Discover ancient architecture and street art with a guide.' },
+                        { name: 'Fruit & Flower Picking', category: '🌸 Agriculture', cost: isDom ? 450 : 2500, icon: '🍓', image: 'https://loremflickr.com/600/450/flower-picking?random=' + tripId, description: 'Pluck fresh local berries and orchids in organic fields.' },
+                        { name: 'Night Street Food Crawl', category: '🍜 Culinary', cost: isDom ? 900 : 4800, icon: '🍢', image: 'https://loremflickr.com/600/450/street-food?random=' + tripId, description: 'Savor exotic local delicacies across vibrant night markets.' },
+                    ];
+                } else {
+                    return [
+                        { name: 'Sightseeing & Photography', category: '📸 Scenic', cost: isDom ? 500 : 3000, icon: '🗼', image: 'https://loremflickr.com/600/450/sightseeing,monument?random=' + tripId, description: 'Visit iconic cultural landmarks and capture breathtaking views.' },
+                        { name: 'Hot Air Balloon Ride', category: '🎈 Adventure', cost: isDom ? 7500 : 25000, icon: '🎈', image: 'https://loremflickr.com/600/450/hot-air-balloon?random=' + tripId, description: 'Drift over majestic mountain vistas and valleys.' },
+                        { name: 'Flower Picking / Botanical Tour', category: '🌸 Nature', cost: isDom ? 400 : 2200, icon: '🌻', image: 'https://loremflickr.com/600/450/botanical-garden?random=' + tripId, description: 'Wander through cherry blossom gardens or lavender fields.' },
+                        { name: 'Skateboarding & Cycling', category: '🛹 Activity', cost: isDom ? 350 : 1800, icon: '🛹', image: 'https://loremflickr.com/600/450/cycling?random=' + tripId, description: 'Rent a premium cruiser board or bicycle along scenic riversides.' },
+                        { name: 'Sunset Hill Hiking', category: '⛰️ Nature', cost: isDom ? 200 : 1500, icon: '🥾', image: 'https://loremflickr.com/600/450/hiking,sunset?random=' + tripId, description: 'Trek up popular panoramic lookout points for a perfect sunset.' },
+                    ];
+                }
+            },
+            
+            addActivityToBudget(name, cost) {
+                const colors = ['#3b82f6', '#f97316', '#ef4444', '#22c55e', '#a855f7', '#ec4899', '#eab308'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                this.budgetItems.push({
+                    id: Date.now(),
+                    name: name,
+                    amount: cost,
+                    color: color
+                });
+                
+                this.saveBudget();
+                alert(`"${name}" added to your Budget Center!`);
             },
             
             handleCoverUpload(e) {
