@@ -198,6 +198,11 @@
                 <button @click="sidebarOpen = !sidebarOpen" x-show="!sidebarOpen" class="text-white/40 hover:text-white transition p-1.5 rounded-lg hover:bg-white/10 -ml-2" title="Open Sidebar">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
+                <a href="{{ route('home') }}" class="text-white/40 hover:text-white transition p-1.5 rounded-lg hover:bg-white/10 flex items-center justify-center" title="Back to Landing Page">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
                 <div>
                     <h1 class="text-xl font-semibold text-white/90 tracking-tight">Welcome back, {{ explode(' ', auth()->user()->name ?? 'Alex')[0] }}</h1>
                 </div>
