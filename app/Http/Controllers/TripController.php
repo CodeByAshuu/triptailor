@@ -22,6 +22,8 @@ class TripController extends Controller
             'end_date'   => 'required|date|after_or_equal:start_date',
             'budget'     => 'nullable|numeric|min:0',
             'notes'      => 'nullable|string',
+            'tags'       => 'nullable|array|max:5',
+            'tags.*'     => 'string|max:50',
         ]);
 
         $trip = Trip::create([

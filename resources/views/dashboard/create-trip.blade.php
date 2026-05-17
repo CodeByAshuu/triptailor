@@ -109,6 +109,75 @@
                     </div>
                 </div>
 
+                <!-- Labels Section -->
+                <div class="group border-t border-zinc-800/50 pt-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-xs font-medium text-zinc-400 transition-colors group-focus-within:text-indigo-400">Labels</label>
+                        <span class="text-[10px] text-zinc-500" x-text="selectedLabels.length + '/5 selected'"></span>
+                    </div>
+                    
+                    <!-- Pre-made Preset Labels -->
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <template x-for="preset in presets" :key="preset">
+                            <button 
+                                type="button" 
+                                @click="toggleLabel(preset)"
+                                :class="selectedLabels.includes(preset) 
+                                    ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/40 shadow-[0_0_10px_rgba(99,102,241,0.05)]' 
+                                    : 'bg-[#1A1A1A] text-zinc-400 border-zinc-800/80 hover:text-zinc-300 hover:border-zinc-700'"
+                                class="px-2.5 py-1 text-xs rounded-full border font-medium transition cursor-pointer flex items-center gap-1"
+                            >
+                                <span x-text="preset"></span>
+                                <span x-show="selectedLabels.includes(preset)" class="text-[10px] opacity-60">✓</span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <!-- Custom Tag Input -->
+                    <div class="flex items-center gap-2">
+                        <div class="relative flex-1">
+                            <input 
+                                type="text" 
+                                x-model="customLabelInput" 
+                                @keydown.enter.prevent="addCustomLabel"
+                                placeholder="Create custom label... (press Enter)"
+                                class="w-full bg-[#1A1A1A] border border-zinc-800 rounded-lg px-4 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all shadow-inner"
+                            >
+                        </div>
+                        <button 
+                            type="button" 
+                            @click="addCustomLabel"
+                            class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white rounded-lg text-xs font-semibold transition border border-zinc-700/50"
+                        >
+                            Add
+                        </button>
+                    </div>
+
+                    <!-- Selected Labels Chips List -->
+                    <div x-show="selectedLabels.length > 0" class="flex flex-wrap gap-1.5 mt-3.5" x-cloak>
+                        <template x-for="(label, index) in selectedLabels" :key="label">
+                            <div class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-lg text-xs font-semibold">
+                                <span x-text="label"></span>
+                                <button type="button" @click="removeLabel(label)" class="text-indigo-400/60 hover:text-indigo-400 p-0.5 rounded transition">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                                <!-- Hidden form inputs for submission as tags[] -->
+                                <input type="hidden" name="tags[]" :value="label">
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Error Indicators -->
+                    <div x-show="selectedLabels.length >= 5" class="mt-2 text-[10px] text-amber-500 font-medium animate-pulse" x-cloak>
+                        Maximum of 5 labels reached.
+                    </div>
+                    @error('tags')
+                        <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Optional Details Toggle -->
                 <div x-data="{ open: false }" class="border-t border-zinc-800/50 pt-6 mt-2">
                     <button type="button" @click="open = !open" class="flex items-center text-sm font-medium text-zinc-400 hover:text-white transition-colors focus:outline-none">
@@ -237,10 +306,42 @@
             errorWeather: false,
             weatherTimeout: null,
             
+            // Labels properties
+            presets: ['Family', 'Work', 'Solo Travel', 'Friends', 'Adventure', 'Relaxation', 'Archive'],
+            selectedLabels: {!! old('tags') ? json_encode(old('tags')) : '[]' !!},
+            customLabelInput: '',
+            
             init() {
                 if (this.destination) {
                     this.fetchWeather();
                 }
+            },
+            
+            toggleLabel(label) {
+                if (this.selectedLabels.includes(label)) {
+                    this.removeLabel(label);
+                } else {
+                    this.addLabel(label);
+                }
+            },
+            
+            addLabel(label) {
+                const trimmed = label.trim();
+                if (!trimmed) return;
+                if (this.selectedLabels.length >= 5) return;
+                if (this.selectedLabels.includes(trimmed)) return;
+                this.selectedLabels.push(trimmed);
+            },
+            
+            removeLabel(label) {
+                this.selectedLabels = this.selectedLabels.filter(l => l !== label);
+            },
+            
+            addCustomLabel() {
+                const label = this.customLabelInput.trim();
+                if (!label) return;
+                this.addLabel(label);
+                this.customLabelInput = '';
             },
             
             fetchWeather() {

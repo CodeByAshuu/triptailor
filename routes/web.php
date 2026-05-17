@@ -40,7 +40,31 @@ Route::middleware('auth')->group(function () {
     })->name('search');
 
     Route::get('/filters', function () {
-        return view('dashboard.filters');
+        $user = auth()->user();
+        
+        // Get all user trips
+        $allTrips = $user->trips()->latest()->get();
+        
+        // Extract all unique tags used in their trips
+        $uniqueTags = $allTrips->pluck('tags')
+            ->filter()
+            ->flatten()
+            ->unique()
+            ->values();
+            
+        $selectedTag = request('tag');
+        
+        // Filter trips by tag if requested
+        $filteredTrips = $selectedTag
+            ? $allTrips->filter(fn($trip) => is_array($trip->tags) && in_array($selectedTag, $trip->tags))
+            : $allTrips;
+
+        return view('dashboard.filters', [
+            'tags' => $uniqueTags,
+            'selectedTag' => $selectedTag,
+            'trips' => $filteredTrips,
+            'allTripsCount' => $allTrips->count()
+        ]);
     })->name('filters');
 
     Route::view('/trips', 'trips.trips')->name('trips.index');
