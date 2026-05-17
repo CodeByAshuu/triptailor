@@ -74,16 +74,16 @@
                             <!-- Dynamic animated gradient background based on weather -->
                             <div class="absolute inset-0 opacity-40 transition-opacity duration-700 group-hover:opacity-70" 
                                  :class="{
-                                     'bg-gradient-to-br from-amber-400 via-orange-500 to-red-500': weather?.condition.toLowerCase().includes('clear') || weather?.condition.toLowerCase().includes('sun'),
-                                     'bg-gradient-to-br from-sky-400 via-indigo-500 to-purple-600': weather?.condition.toLowerCase().includes('rain') || weather?.condition.toLowerCase().includes('drizzle') || weather?.condition.toLowerCase().includes('storm'),
-                                     'bg-gradient-to-br from-slate-400 via-gray-500 to-zinc-700': weather?.condition.toLowerCase().includes('cloud') || weather?.condition.toLowerCase().includes('overcast') || weather?.condition.toLowerCase().includes('mist'),
-                                     'bg-gradient-to-br from-cyan-300 via-blue-400 to-indigo-400': weather?.condition.toLowerCase().includes('snow') || weather?.condition.toLowerCase().includes('ice'),
-                                     'bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500': !weather?.condition.toLowerCase().match(/clear|sun|rain|drizzle|storm|cloud|overcast|mist|snow|ice/)
+                                     'bg-linear-to-br from-amber-400 via-orange-500 to-red-500': weather?.condition.toLowerCase().includes('clear') || weather?.condition.toLowerCase().includes('sun'),
+                                     'bg-linear-to-br from-sky-400 via-indigo-500 to-purple-600': weather?.condition.toLowerCase().includes('rain') || weather?.condition.toLowerCase().includes('drizzle') || weather?.condition.toLowerCase().includes('storm'),
+                                     'bg-linear-to-br from-slate-400 via-gray-500 to-zinc-700': weather?.condition.toLowerCase().includes('cloud') || weather?.condition.toLowerCase().includes('overcast') || weather?.condition.toLowerCase().includes('mist'),
+                                     'bg-linear-to-br from-cyan-300 via-blue-400 to-indigo-400': weather?.condition.toLowerCase().includes('snow') || weather?.condition.toLowerCase().includes('ice'),
+                                     'bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500': !weather?.condition.toLowerCase().match(/clear|sun|rain|drizzle|storm|cloud|overcast|mist|snow|ice/)
                                  }">
                             </div>
 
                             <!-- Glass overlay -->
-                            <div class="absolute inset-0 bg-[#1A1A1A]/70 backdrop-blur-[8px]"></div>
+                            <div class="absolute inset-0 bg-[#1A1A1A]/70 backdrop-blur-sm"></div>
                             
                             <!-- Content -->
                             <div class="relative h-full p-4 flex items-center justify-between z-10">
@@ -98,7 +98,7 @@
                                     
                                     <div>
                                         <div class="flex items-baseline gap-1">
-                                            <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 tracking-tighter drop-shadow-md" x-text="weather?.temperature.split('°')[0]"></span>
+                                            <span class="text-3xl font-black text-transparent bg-clip-text bg-linear-to-b from-white to-white/70 tracking-tighter drop-shadow-md" x-text="weather?.temperature.split('°')[0]"></span>
                                             <span class="text-lg font-bold text-white/50">°C</span>
                                         </div>
                                         <div class="text-xs font-bold text-white/80 tracking-widest uppercase mt-0.5 drop-shadow-sm" x-text="weather?.condition"></div>

@@ -15,7 +15,7 @@
             <div class="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden border border-white/10 group">
                 <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
                      :style="coverImage ? `background-image: url(${coverImage})` : `background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000')`"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
                 
                 <!-- Image Upload Button -->
                 <div class="absolute top-4 right-4 z-20">
@@ -143,7 +143,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Map -->
                     <div class="bg-[#222] border border-white/5 rounded-2xl overflow-hidden h-64 relative group">
-                        <div class="absolute top-4 left-4 z-[400] flex items-center gap-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                        <div class="absolute top-4 left-4 z-400 flex items-center gap-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
                             <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                             <span class="text-[10px] font-bold text-white uppercase tracking-wider">{{ $trip->destination }}</span>
                         </div>
@@ -204,7 +204,7 @@
                                 <!-- Card Background Image -->
                                 <img :src="act.image" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="">
                                 <!-- Gradient Overlay -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent z-0"></div>
+                                <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent z-0"></div>
                                 
                                 <!-- Top Metadata -->
                                 <div class="relative z-10 p-4 flex justify-between items-start">

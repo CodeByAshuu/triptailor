@@ -295,7 +295,7 @@
                     <!-- IMAGE -->
                     <div class="md:col-span-7">
                         <img src="{{ asset('images/create-trip.jpg') }}"
-                            class="w-full h-[480px] object-cover rounded-2xl opacity-90 hover:opacity-100 transition duration-500 shadow-2xl">
+                            class="w-full h-120 object-cover rounded-2xl opacity-90 hover:opacity-100 transition duration-500 shadow-2xl">
                     </div>
 
                 </div>
@@ -345,7 +345,7 @@
 
                     <div class="md:col-span-7">
                         <img src="{{ asset('images/edit_trip.jpg') }}"
-                            class="w-full h-[480px] object-cover rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
+                            class="w-full h-120 object-cover rounded-2xl shadow-2xl opacity-90 hover:opacity-100 transition duration-500">
                     </div>
 
                 </div>
@@ -375,7 +375,7 @@
 
                     <div class="md:col-span-8">
                         <img src="{{ asset('images/organise_activities.jpg') }}"
-                            class="w-full h-[480px] object-cover rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
+                            class="w-full h-120 object-cover rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
                     </div>
 
                 </div>
@@ -405,7 +405,7 @@
 
                     <div class="md:col-span-8">
                         <img src="{{ asset('images/revisit.jpg') }}"
-                            class="w-full h-[480px] object-cover rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
+                            class="w-full h-120 object-cover rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/5 opacity-95 hover:opacity-100 transition duration-500 transform hover:scale-[1.02]">
                     </div>
 
                 </div>

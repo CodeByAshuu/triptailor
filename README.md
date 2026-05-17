@@ -4,7 +4,7 @@
 
 **A workspace-based travel itinerary planning platform**
 
-*Plan smarter. Travel better. Think Notion — but for your adventures.*
+_Plan smarter. Travel better. Think Notion — but for your adventures._
 
 [![Laravel](https://img.shields.io/badge/Laravel-10+-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -26,17 +26,17 @@ Inspired by the design philosophy of **Notion**, **Linear**, **Todoist**, and **
 
 ## 🚀 Features
 
-| Feature | Description |
-|---|---|
-|  **Trip Management** | Create and manage trips with title, destination, dates, budget, and notes |
-|  **Day-wise Itineraries** | Organize activities chronologically by day with times, locations, and categories |
-|  **Favorites** | Bookmark trips and access them instantly from the sidebar |
-|  **Explore Templates** | Pre-built itineraries like *Goa Weekend*, *Kerala Escape*, *Manali Adventure* |
-|  **Budget Tracking** | Estimate and track trip expenses from the dashboard |
-|  **Search & Filters** | Quickly find and filter trips by labels and categories |
-|  **Weather Integration** | Preview weather conditions for your travel destination |
-|  **PDF Export** | Export your itinerary as a printable PDF *(coming soon)* |
-|  **Dark Productivity UI** | A premium dark-themed interface with orange accents |
+| Feature                  | Description                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| **Trip Management**      | Create and manage trips with title, destination, dates, budget, and notes        |
+| **Day-wise Itineraries** | Organize activities chronologically by day with times, locations, and categories |
+| **Favorites**            | Bookmark trips and access them instantly from the sidebar                        |
+| **Explore Templates**    | Pre-built itineraries like _Goa Weekend_, _Kerala Escape_, _Manali Adventure_    |
+| **Budget Tracking**      | Estimate and track trip expenses from the dashboard                              |
+| **Search & Filters**     | Quickly find and filter trips by labels and categories                           |
+| **Weather Integration**  | Preview weather conditions for your travel destination                           |
+| **PDF Export**           | Export your itinerary as a printable PDF _(coming soon)_                         |
+| **Dark Productivity UI** | A premium dark-themed interface with orange accents                              |
 
 ---
 
@@ -111,28 +111,33 @@ Make sure you have the following installed:
 ### Installation
 
 **1. Clone the repository**
+
 ```bash
 git clone https://github.com/[your-org]/triptailor.git
 cd triptailor
 ```
 
 **2. Install PHP dependencies**
+
 ```bash
 composer install
 ```
 
 **3. Install Node dependencies**
+
 ```bash
 npm install
 ```
 
 **4. Configure environment**
+
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
 Edit `.env` with your local database credentials:
+
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -143,16 +148,19 @@ DB_PASSWORD=your_password
 ```
 
 **5. Run database migrations**
+
 ```bash
 php artisan migrate
 ```
 
 **6. (Optional) Seed the database with sample templates**
+
 ```bash
 php artisan db:seed
 ```
 
 **7. Start the development servers**
+
 ```bash
 # In one terminal — compile assets
 npm run dev
@@ -181,6 +189,7 @@ activities
 ```
 
 **Relationships:**
+
 - `User` → hasMany → `Trip`
 - `Trip` → belongsTo → `User`
 - `Trip` → hasMany → `Activity`
@@ -200,13 +209,13 @@ php artisan test
 
 ## 👥 Team
 
-| Name | Registration No. |
-|---|---|
-| Sagar Sahu | 12316515 |
-| Harshit Singh | 12316515 |
-| Soumyosish Pal | 12317736 |
+| Name           | Registration No. |
+| -------------- | ---------------- |
+| Sagar Sahu     | 12326460         |
+| Harshit Singh  | 12316515         |
+| Soumyosish Pal | 12317736         |
 
-*Developed as part of CA-2 — Web Application Development, Spring 2025.*
+_Developed as part of CA-2 — Web Application Development, Spring 2025._
 
 ---
 
@@ -222,8 +231,8 @@ php artisan test
 - [ ] Dynamic partial rendering (HTMX / Alpine AJAX)
 - [ ] Weather API integration
 - [ ] PDF itinerary export
-- [ ] AI itinerary generation *(future)*
-- [ ] Collaborative trip planning *(future)*
+- [ ] AI itinerary generation _(future)_
+- [ ] Collaborative trip planning _(future)_
 
 ---
 

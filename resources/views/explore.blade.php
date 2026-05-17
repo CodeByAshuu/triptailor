@@ -77,7 +77,7 @@
                                     decoding="async"
                                     class="h-44 w-full object-cover transition duration-300 group-hover:scale-105"
                                 >
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
+                                <div class="absolute inset-0 bg-linear-to-t from-black/85 via-black/20 to-transparent"></div>
                                 {{-- Partner discount badge --}}
                                 <div class="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/50 px-2 py-0.5 backdrop-blur-sm">
                                     <svg class="h-2.5 w-2.5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
@@ -194,7 +194,7 @@
                                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                 </svg>
                             </button>
-                            <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#181819] to-transparent"></div>
+                            <div class="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-[#181819] to-transparent"></div>
                         </div>
                         <div class="flex flex-1 flex-col p-5">
                             <h3 class="text-2xl font-bold leading-snug">
