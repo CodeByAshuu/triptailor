@@ -1,184 +1,277 @@
 @extends('layouts.dashboard')
 
 @section('workspace')
-<div class="p-8 side">
-    <div class="max-w-5xl mx-auto space-y-12">
+<div class="p-8 min-h-full bg-[#111111] text-zinc-100 font-sans selection:bg-indigo-500/30">
+    <div class="max-w-5xl mx-auto space-y-10">
         
-        <!-- Upcoming Trip Highlight (Like a pinned task/project) -->
-        <section>
-            <div class="flex items-center justify-between mb-5">
-                <h2 class="text-lg font-semibold text-white/90 tracking-tight">Up Next</h2>
-                <button class="text-sm font-medium text-white/40 hover:text-white transition flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg">
-                    Calendar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </button>
+        <!-- Welcome Hero Section -->
+        <div class="flex items-center justify-between border-b border-zinc-800/60 pb-6">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">Workspace</h1>
+                <p class="text-xs text-zinc-400 mt-1">Unified command center for all your upcoming and active travel plans.</p>
+            </div>
+            
+            <div class="flex items-center gap-3 text-xs text-zinc-500 bg-zinc-900 border border-zinc-850 rounded-xl px-4 py-2">
+                <span>{{ $totalTrips }} total plans</span>
+                <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
+                <span>{{ $favoritesCount }} favorites</span>
+            </div>
+        </div>
+
+        <!-- 1. UP NEXT / HIGHLIGHT SECTION -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Up Next</h2>
+                @if($upcomingTrip)
+                    <a href="{{ route('filters') }}" class="text-[11px] font-semibold text-zinc-500 hover:text-white transition flex items-center gap-1">
+                        View Calendar
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                @endif
             </div>
 
-            <div class="group relative bg-[#222222] border border-white/5 rounded-2xl p-1 overflow-hidden transition-all hover:border-white/10 hover:shadow-2xl hover:shadow-orange-500/5">
-                <div class="relative bg-[#1E1E1E] border border-white/5 rounded-xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between overflow-hidden gap-6">
-                    <!-- Background accent -->
-                    <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-linear-to-l from-orange-500/10 to-transparent opacity-50 pointer-events-none"></div>
+            @if($upcomingTrip)
+                @php
+                    $duration = $upcomingTrip->start_date->diffInDays($upcomingTrip->end_date) + 1;
+                @endphp
+                <div class="group relative bg-[#1A1A1A] border border-zinc-800/80 rounded-2xl p-6 shadow-2xl transition duration-300 hover:border-zinc-700 hover:shadow-[0_0_30px_rgba(249,115,22,0.02)] overflow-hidden">
+                    <!-- High-end decorative accent glow -->
+                    <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-linear-to-l from-orange-500/5 to-transparent pointer-events-none group-hover:from-orange-500/10 transition duration-500"></div>
 
-                    <div class="relative z-10 flex flex-col gap-3">
-                        <span class="inline-flex w-fit items-center gap-1.5 px-3 py-1 bg-orange-500/10 text-orange-400 text-xs font-bold uppercase tracking-wider rounded-lg border border-orange-500/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
-                            In 12 days
-                        </span>
-                        <div>
-                            <h3 class="text-3xl font-bold text-white tracking-tight">Kyoto Autumn Leaves</h3>
-                            <p class="text-white/50 text-base mt-1 flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                Kyoto, Japan
-                            </p>
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="space-y-3.5">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-orange-500/20 shadow-inner">
+                                <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
+                                @if($daysRemaining === 0)
+                                    Starts Today
+                                @elseif($daysRemaining === 1)
+                                    Starts Tomorrow
+                                @else
+                                    In {{ $daysRemaining }} days
+                                @endif
+                            </span>
+
+                            <div class="space-y-1">
+                                <h3 class="text-2xl font-bold text-white tracking-tight group-hover:text-indigo-400 transition">{{ $upcomingTrip->title }}</h3>
+                                <p class="text-sm text-zinc-400 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    {{ $upcomingTrip->destination }}
+                                </p>
+                            </div>
+
+                            @if(is_array($upcomingTrip->tags) && count($upcomingTrip->tags) > 0)
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach($upcomingTrip->tags as $t)
+                                        <span class="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-500">
+                                            {{ $t }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="flex flex-col items-start md:items-end gap-3.5">
+                            <div class="md:text-right space-y-0.5">
+                                <p class="text-sm font-semibold text-white">{{ $upcomingTrip->start_date->format('M d') }} - {{ $upcomingTrip->end_date->format('M d, Y') }}</p>
+                                <p class="text-xs text-zinc-500">{{ $duration }} day{{ $duration > 1 ? 's' : '' }} planned</p>
+                            </div>
+                            <a href="{{ route('trips.show', $upcomingTrip->id) }}" class="inline-flex items-center justify-center bg-white text-black hover:bg-zinc-200 px-5 py-2 rounded-lg text-xs font-bold transition active:scale-95 shadow">
+                                Open Itinerary
+                            </a>
                         </div>
                     </div>
-                    
-                    <div class="relative z-10 flex flex-col items-start md:items-end gap-4 w-full md:w-auto">
-                        <div class="text-left md:text-right">
-                            <p class="text-lg font-semibold text-white/90">Nov 15 - Nov 24</p>
-                            <p class="text-sm text-white/40 mt-0.5">9 days • 4 companions</p>
+                </div>
+            @else
+                <!-- Pinned Empty State -->
+                <div class="border border-dashed border-zinc-850 rounded-2xl p-8 bg-[#1A1A1A]/30 text-center space-y-4">
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-zinc-300">No Upcoming Trips</h3>
+                        <p class="text-xs text-zinc-500 max-w-sm mx-auto">There are no upcoming travel plans scheduled. Start mapping out your next destination today.</p>
+                    </div>
+                    <a href="{{ route('trips.create') }}" class="inline-flex items-center gap-1 px-4 py-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-lg text-xs font-semibold hover:bg-indigo-500/20 transition">
+                        + New Itinerary
+                    </a>
+                </div>
+            @endif
+        </section>
+
+        <!-- 2. CONTINUE PLANNING SECTION -->
+        <section class="space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Continue Planning</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                
+                <!-- CTA Create Trip Card -->
+                <a href="{{ route('trips.create') }}" class="group bg-transparent border border-dashed border-zinc-800 hover:border-zinc-700/80 hover:bg-[#1A1A1A]/40 rounded-xl transition duration-300 flex flex-col items-center justify-center min-h-58 p-5 gap-3.5 cursor-pointer">
+                    <div class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center text-zinc-500 group-hover:text-white group-hover:bg-indigo-500 transition-all duration-300 group-hover:scale-105 shadow">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    </div>
+                    <div class="text-center space-y-0.5">
+                        <span class="block text-sm font-semibold text-zinc-400 group-hover:text-white transition">Create New Trip</span>
+                        <span class="block text-[11px] text-zinc-550">Draft an custom itinerary from scratch</span>
+                    </div>
+                </a>
+
+                <!-- Loop other trips -->
+                @forelse($planningTrips as $trip)
+                    @php
+                        $now = now()->startOfDay();
+                        if ($trip->end_date->isPast()) {
+                            $status = 'Completed';
+                            $statusClass = 'bg-zinc-900/50 text-zinc-500 border-zinc-800/80';
+                        } elseif ($trip->start_date->isFuture()) {
+                            $status = 'Upcoming';
+                            $statusClass = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+                        } else {
+                            $status = 'Active';
+                            $statusClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                        }
+                    @endphp
+                    <div class="group bg-[#1A1A1A] border border-zinc-850 rounded-xl hover:border-zinc-700/80 transition-all duration-300 shadow-lg flex flex-col justify-between min-h-58 relative overflow-hidden">
+                        
+                        <div class="p-5 space-y-4">
+                            <!-- Card Header (Dynamic status and Favorite Heart) -->
+                            <div class="flex justify-between items-center">
+                                <span class="px-2 py-0.5 border text-[10px] font-bold uppercase tracking-wider rounded-md {{ $statusClass }}">
+                                    {{ $status }}
+                                </span>
+                                
+                                @if($trip->is_favorite)
+                                    <span class="text-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.1)]">
+                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="space-y-1">
+                                <a href="{{ route('trips.show', $trip->id) }}" class="block text-base font-semibold text-white hover:text-indigo-400 transition truncate max-w-full">
+                                    {{ $trip->title }}
+                                </a>
+                                <p class="text-xs text-zinc-400 flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    {{ $trip->destination }}
+                                </p>
+                            </div>
+
+                            <!-- Horizontal tag display -->
+                            @if(is_array($trip->tags) && count($trip->tags) > 0)
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach(array_slice($trip->tags, 0, 3) as $t)
+                                        <span class="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-850 text-[9px] font-semibold text-zinc-500">
+                                            {{ $t }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
-                        <a href="/trips/1" class="inline-block bg-white text-black hover:bg-gray-200 px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm active:scale-95 w-full md:w-auto text-center">
-                            Open Itinerary
+
+                        <!-- Card Footer -->
+                        <div class="px-5 py-3.5 border-t border-zinc-900 bg-zinc-900/10 flex items-center justify-between text-[11px] text-zinc-500">
+                            <span>Updated {{ $trip->updated_at->diffForHumans() }}</span>
+                            <span class="font-medium text-zinc-400">{{ $trip->start_date->format('M d') }} - {{ $trip->end_date->format('M d, Y') }}</span>
+                        </div>
+                    </div>
+                @empty
+                    @if(!$upcomingTrip)
+                        <div class="col-span-full text-center py-8 border border-dashed border-zinc-850 rounded-xl bg-zinc-900/10 text-xs text-zinc-550">
+                            Create your very first itinerary plan to see it indexed here.
+                        </div>
+                    @endif
+                @endforelse
+
+            </div>
+        </section>
+
+        <!-- 3. ACTIONS & WORKFLOW SECTIONS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
+            
+            <!-- Quick Actions -->
+            <div class="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-450 mb-4">Quick Workspace Actions</h2>
+                    <div class="space-y-2">
+                        <!-- Action 1: Create -->
+                        <a href="{{ route('trips.create') }}" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-zinc-900 border border-transparent hover:border-zinc-850 transition group">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                                </div>
+                                <div class="text-left space-y-0.5">
+                                    <p class="text-xs font-bold text-white">Plan Next Journey</p>
+                                    <p class="text-[10px] text-zinc-500">Launch the creation module</p>
+                                </div>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+
+                        <!-- Action 2: Open Search -->
+                        <a href="{{ route('search') }}" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-zinc-900 border border-transparent hover:border-zinc-850 transition group">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                                </div>
+                                <div class="text-left space-y-0.5">
+                                    <p class="text-xs font-bold text-white">Global Command Search</p>
+                                    <p class="text-[10px] text-zinc-500">Search tags, descriptions, destinations</p>
+                                </div>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+
+                        <!-- Action 3: Labels and Filters -->
+                        <a href="{{ route('filters') }}" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-zinc-900 border border-transparent hover:border-zinc-850 transition group">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                                </div>
+                                <div class="text-left space-y-0.5">
+                                    <p class="text-xs font-bold text-white">Manage Tags & Labels</p>
+                                    <p class="text-[10px] text-zinc-500">Review dynamic category filters</p>
+                                </div>
+                            </div>
+                            <svg class="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-300 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Activity Cards / Continue Planning -->
-        <section>
-            <div class="flex items-center justify-between mb-5">
-                <h2 class="text-lg font-semibold text-white/90 tracking-tight">Continue Planning</h2>
-            </div>
+            <!-- Get Started Guide Onboarding Card -->
+            <div class="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-6 relative overflow-hidden group flex flex-col justify-between">
+                <!-- Soft background accent -->
+                <div class="absolute -right-12 -top-12 w-40 h-40 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition duration-500 pointer-events-none"></div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Create New Card -->
-                <a href="/trips/create" class="group bg-transparent border-2 border-dashed border-white/10 hover:border-white/20 hover:bg-white/5 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center h-56 gap-4">
-                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white/40 group-hover:text-white group-hover:bg-orange-500 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-orange-500/20">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                <div class="space-y-4">
+                    <div>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-450 mb-1 relative z-10">How to plan a trip</h2>
+                        <p class="text-[11px] text-zinc-500 relative z-10">Key milestones for crafting travel itineraries.</p>
                     </div>
-                    <div class="text-center">
-                        <span class="block text-base font-medium text-white/60 group-hover:text-white transition">Create New Trip</span>
-                        <span class="block text-xs text-white/30 mt-1">Start from scratch or a template</span>
-                    </div>
-                </a>
-                <!-- Card 1 -->
-                <div class="group bg-[#1E1E1E] border border-white/5 rounded-2xl hover:border-white/10 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-56 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/50">
-                    <div class="p-5 flex-1 flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-400 shrink-0">1</div>
+                            <div class="space-y-0.5">
+                                <p class="text-xs font-semibold text-zinc-200">Create a destination</p>
+                                <p class="text-[10px] text-zinc-500 leading-relaxed">Name your journey, add dates, and geocode dynamic current weather.</p>
                             </div>
-                            <button class="text-white/20 hover:text-white transition opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded-md">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
-                            </button>
                         </div>
-                        <h3 class="text-base font-semibold text-white/90 mb-1">Swiss Alps Ski Trip</h3>
-                        <p class="text-sm text-white/40 flex-1">Zermatt, Switzerland</p>
-                        
-                        <div class="mt-4 flex items-center gap-2">
-                            <div class="flex -space-x-2">
-                                <div class="w-6 h-6 rounded-full bg-white/20 border-2 border-[#1E1E1E]"></div>
-                                <div class="w-6 h-6 rounded-full bg-white/30 border-2 border-[#1E1E1E]"></div>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-400 shrink-0">2</div>
+                            <div class="space-y-0.5">
+                                <p class="text-xs font-semibold text-zinc-200">Categorize with tags</p>
+                                <p class="text-[10px] text-zinc-500 leading-relaxed">Tag with preset labels like Solo Travel or Relaxation for instant filtering.</p>
                             </div>
-                            <span class="text-xs font-medium text-white/30">+2</span>
                         </div>
-                    </div>
-                    <div class="px-5 py-3 border-t border-white/5 bg-white/2 flex items-center justify-between">
-                        <span class="text-xs text-white/40">Edited 2 hrs ago</span>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-white/60 bg-white/5 px-2 py-1 rounded-md border border-white/10">Draft</span>
                     </div>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="group bg-[#1E1E1E] border border-white/5 rounded-2xl hover:border-white/10 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col h-56 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/50">
-                    <div class="p-5 flex-1 flex flex-col">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-green-500/10 text-green-400 flex items-center justify-center border border-green-500/20">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                            </div>
-                            <button class="text-white/20 hover:text-white transition opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded-md">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
-                            </button>
-                        </div>
-                        <h3 class="text-base font-semibold text-white/90 mb-1">Bali Honeymoon</h3>
-                        <p class="text-sm text-white/40 flex-1">Ubud, Indonesia</p>
-
-                        <div class="mt-4 w-full bg-white/5 rounded-full h-1.5">
-                            <div class="bg-green-400 h-1.5 rounded-full w-3/4"></div>
-                        </div>
-                    </div>
-                    <div class="px-5 py-3 border-t border-white/5 bg-white/2 flex items-center justify-between">
-                        <span class="text-xs text-white/40">Dec 1 - Dec 10</span>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-green-400 bg-green-400/10 px-2 py-1 rounded-md border border-green-400/20">Planned</span>
-                    </div>
-                </div>
-
-                
-            </div>
-        </section>
-
-        <!-- Helper Section / Bottom Area -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
-            <!-- Quick Actions -->
-            <div class="bg-[#1E1E1E] border border-white/5 rounded-2xl p-6">
-                <h2 class="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Quick Actions</h2>
-                <div class="space-y-2">
-                    <button class="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/50 group-hover:text-white group-hover:bg-white/10 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-medium text-white/90">Import Booking</p>
-                                <p class="text-xs text-white/40 mt-0.5">Upload PDF or forward email</p>
-                            </div>
-                        </div>
-                        <svg class="w-4 h-4 text-white/20 group-hover:text-white/50 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                    <button class="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/50 group-hover:text-white group-hover:bg-white/10 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-medium text-white/90">Invite Friends</p>
-                                <p class="text-xs text-white/40 mt-0.5">Collaborate on your itineraries</p>
-                            </div>
-                        </div>
-                        <svg class="w-4 h-4 text-white/20 group-hover:text-white/50 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Get Started Guide -->
-            <div class="bg-[#1E1E1E] border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
-                <div class="absolute -right-10 -top-10 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl group-hover:bg-orange-500/20 transition duration-500 pointer-events-none"></div>
-                <h2 class="text-sm font-semibold text-white/60 uppercase tracking-wider mb-2 relative z-10">How to plan a trip</h2>
-                <p class="text-sm text-white/40 mb-6 relative z-10">Follow these steps to craft the perfect journey.</p>
-                
-                <div class="space-y-5 relative z-10">
-                    <div class="flex gap-4">
-                        <div class="w-7 h-7 rounded-full bg-white/10 border border-white/5 flex items-center justify-center text-xs font-bold text-white shrink-0">1</div>
-                        <div>
-                            <p class="text-sm font-semibold text-white/90">Create a destination</p>
-                            <p class="text-xs text-white/40 mt-1 leading-relaxed">Start by picking where you want to go and exploring templates.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-7 h-7 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-xs font-bold text-white/50 shrink-0">2</div>
-                        <div>
-                            <p class="text-sm font-semibold text-white/50">Add dates & companions</p>
-                            <p class="text-xs text-white/30 mt-1 leading-relaxed">Set the timeframe and invite friends to collaborate.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-7 h-7 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-xs font-bold text-white/50 shrink-0">3</div>
-                        <div>
-                            <p class="text-sm font-semibold text-white/50">Build itinerary</p>
-                            <p class="text-xs text-white/30 mt-1 leading-relaxed">Add flights, hotels, and activities to your daily schedule.</p>
-                        </div>
-                    </div>
+                <div class="pt-6 border-t border-zinc-900 mt-6 flex justify-end relative z-10">
+                    <a href="{{ route('get-started') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 hover:text-white rounded-lg transition border border-zinc-700/50">
+                        Open Setup Guide
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             </div>
         </section>
