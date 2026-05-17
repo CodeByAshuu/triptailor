@@ -40,16 +40,25 @@
 
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="space-y-3.5">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-orange-500/20 shadow-inner">
-                                <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
+                            @php
+                                $isActive = now()->between($upcomingTrip->start_date, $upcomingTrip->end_date);
+                                $isCompleted = now()->greaterThan($upcomingTrip->end_date);
+                            @endphp
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border shadow-inner {{ $isCompleted ? 'bg-zinc-800/10 text-zinc-500 border-zinc-800/30' : ($isActive ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-orange-500/10 text-orange-400 border-orange-500/20') }}">
+                                @if(!$isCompleted)
+                                    <span class="w-1.5 h-1.5 rounded-full {{ $isActive ? 'bg-emerald-450' : 'bg-orange-450' }} animate-pulse"></span>
+                                @endif
+                                
                                 @if($daysRemaining === 0)
                                     Starts Today
                                 @elseif($daysRemaining === 1)
                                     Starts Tomorrow
                                 @elseif($daysRemaining > 1)
                                     In {{ $daysRemaining }} days
+                                @elseif($isActive)
+                                    Active Now
                                 @else
-                                    Active / Completed
+                                    Completed
                                 @endif
                             </span>
 

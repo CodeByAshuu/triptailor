@@ -16,15 +16,25 @@ class DashboardController extends Controller
         $user = auth()->user();
         $today = Carbon::today();
 
-        // 1. Find nearest upcoming trip starting today or later
+        // 1. Find if there is any currently active trip (today is between start_date and end_date)
         $upcomingTrip = $user->trips()
-            ->where('start_date', '>=', $today)
-            ->orderBy('start_date', 'asc')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
             ->first();
 
-        // Fallback: If no future trips, get the most recently created trip
+        // 2. If no active trip, find the nearest upcoming trip starting after today
         if (!$upcomingTrip) {
-            $upcomingTrip = $user->trips()->latest()->first();
+            $upcomingTrip = $user->trips()
+                ->where('start_date', '>', $today)
+                ->orderBy('start_date', 'asc')
+                ->first();
+        }
+
+        // 3. Fallback: If no active or future trips, get the most recently ended/created trip
+        if (!$upcomingTrip) {
+            $upcomingTrip = $user->trips()
+                ->orderBy('end_date', 'desc')
+                ->first();
         }
 
         $daysRemaining = null;

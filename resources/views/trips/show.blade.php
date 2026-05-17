@@ -162,7 +162,7 @@
                     <div class="bg-[#222] border border-white/5 rounded-2xl p-5 flex flex-col">
                         <div class="flex items-center justify-between mb-6">
                             <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                                <span class="w-1 h-1 rounded-full bg-blue-400"></span> Atmosphere
+                                <span class="w-1 h-1 rounded-full bg-blue-400"></span> Weather
                             </span>
                             <button @click="fetchForecast()" class="w-6 h-6 rounded-md bg-white/5 flex items-center justify-center hover:bg-white/10 transition text-white/40 hover:text-white">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
