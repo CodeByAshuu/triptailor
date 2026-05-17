@@ -19,7 +19,7 @@
         </div>
 
         <!-- 1. UP NEXT / HIGHLIGHT SECTION -->
-        <section class="space-y-4">
+        <section class="space-y-4">No
             <div class="flex items-center justify-between">
                 <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Up Next</h2>
                 @if($upcomingTrip)
