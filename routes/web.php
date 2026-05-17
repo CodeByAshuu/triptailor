@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\TripController;
 
 Route::get('/', function () {
     return view('landing');
@@ -43,8 +44,9 @@ Route::middleware('auth')->group(function () {
     })->name('filters');
 
     Route::view('/trips', 'trips.trips')->name('trips.index');
-    Route::get('/trips/create', function () {
-        return view('dashboard.create-trip');
-    })->name('trips.create');
+    Route::get('/trips/create', [TripController::class, 'create'])->name('trips.create');
+    Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
+    Route::get('/trips/weather-preview', [TripController::class, 'getWeather'])->name('trips.weather');
     Route::view('/activities/create', 'activities.create')->name('activities.create');
+    Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
 });
