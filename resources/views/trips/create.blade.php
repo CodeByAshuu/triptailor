@@ -6,10 +6,10 @@
     <!-- decor bg glows -->
     <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <!-- top left orange glow -->
-        <div class="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full opacity-[0.07]"
+        <div class="absolute -left-40 -top-40 h-130 w-130 rounded-full opacity-[0.07]"
              style="background: radial-gradient(circle, #FF7A00 0%, transparent 70%);"></div>
         <!-- bottom right subtle gllow -->
-        <div class="absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full opacity-[0.05]"
+        <div class="absolute -bottom-32 -right-32 h-105 w-105 rounded-full opacity-[0.05]"
              style="background: radial-gradient(circle, #FF7A00 0%, transparent 70%);"></div>
     </div>
 
@@ -46,7 +46,7 @@
                 {{-- Heading --}}
                 <h1 class="mt-4 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
                     Craft your<br>
-                    <span class="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">perfect trip</span>
+                    <span class="bg-linear-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">perfect trip</span>
                 </h1>
 
                 {{-- Description --}}
@@ -87,7 +87,7 @@
             ───────────────────────────────────── --}}
             <div class="lg:col-span-3">
                 <form action="/trips" method="POST"
-                      class="rounded-3xl border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
+                      class="rounded-3xl border border-white/10 bg-white/3 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8">
                     @csrf
 
                     {{-- Card header --}}
@@ -159,7 +159,7 @@
                                        class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white
                                               transition duration-200
                                               focus:border-orange-500/40 focus:outline-none focus:ring-2 focus:ring-orange-500/15
-                                              [color-scheme:dark]">
+                                              scheme-dark">
                             </div>
 
                             {{-- End Date --}}
@@ -172,7 +172,7 @@
                                        class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white
                                               transition duration-200
                                               focus:border-orange-500/40 focus:outline-none focus:ring-2 focus:ring-orange-500/15
-                                              [color-scheme:dark]">
+                                              scheme-dark">
                             </div>
                         </div>
 

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\TripController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
     return view('landing');
@@ -34,17 +36,43 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.get-started');
     })->name('get-started');
 
-    Route::get('/search', function () {
-        return view('dashboard.search');
-    })->name('search');
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
+    Route::get('/search/query', [SearchController::class, 'query'])->name('search.query');
 
     Route::get('/filters', function () {
-        return view('dashboard.filters');
+        $user = auth()->user();
+        
+        // Get all user trips
+        $allTrips = $user->trips()->latest()->get();
+        
+        // Extract all unique tags used in their trips
+        $uniqueTags = $allTrips->pluck('tags')
+            ->filter()
+            ->flatten()
+            ->unique()
+            ->values();
+            
+        $selectedTag = request('tag');
+        
+        // Filter trips by tag if requested
+        $filteredTrips = $selectedTag
+            ? $allTrips->filter(fn($trip) => is_array($trip->tags) && in_array($selectedTag, $trip->tags))
+            : $allTrips;
+
+        return view('dashboard.filters', [
+            'tags' => $uniqueTags,
+            'selectedTag' => $selectedTag,
+            'trips' => $filteredTrips,
+            'allTripsCount' => $allTrips->count()
+        ]);
     })->name('filters');
 
     Route::view('/trips', 'trips.trips')->name('trips.index');
-    Route::get('/trips/create', function () {
-        return view('dashboard.create-trip');
-    })->name('trips.create');
+    Route::get('/trips/create', [TripController::class, 'create'])->name('trips.create');
+    Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
+    Route::get('/trips/weather-preview', [TripController::class, 'getWeather'])->name('trips.weather');
     Route::view('/activities/create', 'activities.create')->name('activities.create');
+    Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
+    Route::delete('/trips/{trip}', [TripController::class, 'destroy'])->name('trips.destroy');
+    Route::post('/trips/{trip}/toggle-favorite', [TripController::class, 'toggleFavorite'])->name('trips.toggle-favorite');
 });

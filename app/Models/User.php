@@ -44,4 +44,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the trips for the user.
+     */
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
 }

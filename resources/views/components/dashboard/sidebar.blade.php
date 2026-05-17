@@ -61,14 +61,14 @@
                 </div>
             </div>
             <div x-show="open" x-transition class="space-y-0.5">
-                <a href="/trips/1" class="group flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition">
+                @forelse($trips->where('is_favorite', true) as $trip)
+                <a href="/trips/{{ $trip->id }}" class="group flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition truncate">
                     <span class="w-2 h-2 rounded-full bg-orange-500/80"></span>
-                    Bali Honeymoon
+                    <span class="truncate">{{ $trip->title }}</span>
                 </a>
-                <a href="/trips/2" class="group flex items-center gap-2.5 px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition">
-                    <span class="w-2 h-2 rounded-full bg-blue-500/80"></span>
-                    Swiss Alps
-                </a>
+                @empty
+                <div class="px-2 py-1.5 text-xs text-white/20 italic">No favorites yet</div>
+                @endforelse
             </div>
         </div>
 
@@ -103,35 +103,51 @@
                         <span class="text-xs text-white/40 leading-relaxed">How to create a trip</span>
                     </a>
                 </div>
+                
                 <!-- Iterating trips -->
-                @forelse($trips ?? [1,2,3] as $trip)
+                @forelse($trips as $trip)
                 <div class="group/item flex items-center justify-between px-2 py-1.5 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition relative cursor-pointer" @click.away="activeTripMenu = null">
-                    <a href="/trips/{{ is_object($trip) ? $trip->id : $trip }}" class="flex items-center gap-2.5 truncate flex-1">
+                    <a href="/trips/{{ $trip->id }}" class="flex items-center gap-2.5 truncate flex-1">
                         <span class="w-2 h-2 rounded-full border border-white/30 group-hover/item:border-white/50"></span>
-                        <span class="truncate">{{ is_object($trip) ? $trip->title : 'My Awesome Trip ' . $trip }}</span>
+                        <span class="truncate">{{ $trip->title }}</span>
                     </a>
                     
-                    <button @click.stop="activeTripMenu = activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }} ? null : {{ is_object($trip) ? $trip->id : $trip }}" class="opacity-0 group-hover/item:opacity-100 text-white/40 hover:text-white p-1 rounded-md transition hover:bg-white/10">
+                    <button @click.stop="activeTripMenu = activeTripMenu === {{ $trip->id }} ? null : {{ $trip->id }}" class="opacity-0 group-hover/item:opacity-100 text-white/40 hover:text-white p-1 rounded-md transition hover:bg-white/10">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
                     </button>
 
-                    <div x-show="activeTripMenu === {{ is_object($trip) ? $trip->id : $trip }}" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-9999 py-1">
-                        <a href="/trips/{{ is_object($trip) ? $trip->id : $trip }}/edit" class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
+                    <div x-show="activeTripMenu === {{ $trip->id }}" x-transition x-anchor.right-start="$el.parentElement" class="fixed w-44 bg-[#222222] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-9999 py-1">
+                        <a href="/trips/{{ $trip->id }}/edit" class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
                             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg> Edit Trip
                         </a>
                         <button class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
                             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> Export PDF
                         </button>
-                        <button class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
-                            <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg> Add to Favorites
-                        </button>
+                        <form action="/trips/{{ $trip->id }}/toggle-favorite" method="POST" class="m-0">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition flex items-center gap-2">
+                                <svg class="w-4 h-4 opacity-70 {{ $trip->is_favorite ? 'text-orange-400 fill-orange-400' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                {{ $trip->is_favorite ? 'Remove Favorite' : 'Add to Favorites' }}
+                            </button>
+                        </form>
                         <div class="h-px bg-white/10 my-1"></div>
-                        <button class="w-full text-left px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition flex items-center gap-2">
+                        <button 
+                            type="button" 
+                            @click="$dispatch('open-delete-modal', { id: {{ $trip->id }}, title: {{ json_encode($trip->title) }} })"
+                            class="w-full text-left px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition flex items-center gap-2"
+                        >
                             <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg> Delete Trip
                         </button>
                     </div>
                 </div>
                 @empty
+                <div class="px-2 py-3 text-center rounded-lg border border-dashed border-white/5 bg-white/2">
+                    <p class="text-xs text-white/40">No trips yet</p>
+                    <a href="/trips/create" class="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-orange-400 hover:text-orange-300 transition">
+                        Create Trip
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    </a>
+                </div>
                 @endforelse
             </div>
         </div>
